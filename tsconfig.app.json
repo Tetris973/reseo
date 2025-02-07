@@ -1,26 +1,84 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    /**
+     * Description: Specifies location for incremental build information cache.
+     * Useful for: Optimizing rebuild performance in large projects.
+     * Reason: Stores compilation info in node_modules to avoid cluttering source directories.
+     */
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    /**
+     * Description: Sets JavaScript language version for output code.
+     * Useful for: Targeting modern browsers while maintaining broad compatibility.
+     * Reason: ES2020 provides modern features while being supported by all major browsers.
+     */
     "target": "ES2020",
-    "useDefineForClassFields": true,
+    
+    /**
+     * Description: Specifies which built-in APIs are available during compilation.
+     * Useful for: Browser-based applications needing DOM manipulation.
+     * Reason: Includes modern JavaScript, DOM, and iteration APIs needed for web apps.
+     */
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    
+    /**
+     * Description: Determines how modules are generated in output JavaScript.
+     * Useful for: Modern web applications using bundlers.
+     * Reason: ESNext enables latest module syntax for optimal tree-shaking and bundling.
+     */
     "module": "ESNext",
-    "skipLibCheck": true,
 
     /* Bundler mode */
+    /**
+     * Description: Specifies how TypeScript resolves module imports. "bundler" mode optimizes for modern build tools like Vite/esbuild.
+     * Useful for: Projects using modern bundlers that handle module resolution differently than Node.js.
+     * Reason: Enables better integration with Vite's import handling and provides enhanced module resolution features.
+     */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    /**
+     * Description: Allows imports to include TypeScript-specific extensions (.ts, .tsx) in import statements.
+     * Useful for: Development workflow where you want to explicitly use TypeScript extensions.
+     * Reason: Enables direct TypeScript file imports while Vite handles the extension resolution during build.
+     */
+    "allowImportingTsExtensions": true,
+    
+    /**
+     * Description: Ensures each file is treated as a separate module with its own scope.
+     * Useful for: Build tools that process files independently (like Vite/esbuild).
+     * Reason: Prevents cross-file references that could break when files are processed separately by the bundler.
+     */
+    "isolatedModules": true,
+    
+    /**
+     * Description: Forces all files to be treated as modules, even if they don't have imports/exports.
+     * Useful for: Maintaining consistent module behavior across all files.
+     * Reason: Ensures reliable bundling and prevents scope-related issues in the build process.
+     */
+    "moduleDetection": "force",
+
+    /**
+     * Description: Controls output generation. When true, TypeScript skips generating any output files (.js, .d.ts) and only performs type checking.
+     * Useful for: Modern bundlers like Vite where esbuild handles the actual transpilation.
+     * Reason: Set to true to avoid duplicate transpilation, improve build performance, and prevent conflicts with Vite's build process.
+     */
+    "noEmit": true,
+    
+    /**
+     * Description: Specifies how JSX should be transformed. "react-jsx" enables the new JSX transform from React 17+.
+     * Useful for: Modern React applications using the automatic runtime.
+     * Reason: Eliminates need for React import in JSX files and provides better optimization opportunities.
+     */
+    "jsx": "react-jsx",
+    
+    /**
+     * Description: Controls how class fields are initialized in TypeScript.
+     * Useful for: Ensuring consistent class field behavior with modern JavaScript standards.
+     * Reason: Aligns with ECMAScript standard for class field definitions and prevents unexpected inheritance behavior.
+     */
+    "useDefineForClassFields": true,
+  
   },
   "include": ["src"]
 }
