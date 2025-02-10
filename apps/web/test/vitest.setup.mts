@@ -2,12 +2,10 @@
 import '@testing-library/jest-dom/vitest'
 import { afterEach, vi, beforeEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
-import { checkAuthentication } from '@web/common/helpers/check-authentication.helpers';
 import { mockRouter } from '@testWeb/common/unit-test/mocks/router.mock';
 import { getLogger, clearLogs, getLogs } from '@webRoot/test/common/unit-test/helpers/test-logger.helper';
 import { mockGetConfig } from '@testWeb/common/unit-test/mocks/config.mock';
 import { getServerConfig } from '@web/config/configuration';
-import { backendApi } from '@web/lib/backend-api/backend-api';
 import { cookies } from 'next/headers';
 
 vi.mock('next/headers');
@@ -75,37 +73,7 @@ function exampleMock() {
     throw new Error('exampleMock was called but not mocked in this test, refer to the documentaion in vitest.setup.mts');
 }
 
-/**
- * Mock for the checkAuthentication utility function.
- * 
- * @see {@link exampleMock}
- * 
- * @example
- * // In your test file:
- * import { checkAuthentication } from '@web/app/utils/check-authentication.utils';
- * import { vi } from 'vitest';
- * 
- * const mockToken = 'jwtToken'
- * 
- * (checkAuthentication as Mock).mockReturnValue({ result: mockToken })
- */
-function mockCheckAuthentication() {
-    throw new Error('checkAuthentication was called but not mocked in this test, refer to the documentaion in vitest.setup.mts');
-}
-vi.mock('@web/common/helpers/check-authentication.helpers', () => ({
-    checkAuthentication: vi.fn().mockImplementation(mockCheckAuthentication),
-}));
-
 beforeEach(() => {
-  /**
-   * Reset all mocked function of the backendApi
-   */
-    Object.values(backendApi).forEach((func) => {
-        if (typeof func === 'function' && vi.isMockFunction(func)) {
-          vi.mocked(func).mockReset();
-        }
-    });
-
     /**
      * Reset the mock for the cookies from next/headers
      */

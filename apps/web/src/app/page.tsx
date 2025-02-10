@@ -1,14 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Box, Title, Stack, Loader, Button, Container, useMantineTheme } from '@mantine/core';
+import { Box, Title, Stack, Container, useMantineTheme } from '@mantine/core';
 import { Header } from '@web/components/Header';
-import { useProfile } from './auth/ProfileContext';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const { profile, loading } = useProfile();
-  const router = useRouter();
   const theme = useMantineTheme();
 
   return (
@@ -29,13 +25,6 @@ export default function Home() {
             gap="xl"
             align="center">
             <Title order={1}>Welcome to My Next.js App</Title>
-            {loading && <Loader />}
-            {!loading && profile && (
-              <>
-                <Title order={2}>{profile?.username}</Title>
-                <Button onClick={() => router.push('/user/dashboard')}>Go to dashboard</Button>
-              </>
-            )}
           </Stack>
         </Container>
       </Box>

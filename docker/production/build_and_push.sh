@@ -2,7 +2,7 @@
 
 set -e
 
-REGISTRY="registry.gitlab.com/tetris973/mono-next-nest-template"
+REGISTRY="registry.gitlab.com/tetris973/reseo"
 SERVICES=("nest" "next" "prisma-migrate")
 COMPOSE_FILE="docker/production/docker-compose.yml"
 BUILD_ALL=false

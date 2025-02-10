@@ -1,5 +1,5 @@
 # # image: node:20
-# image: registry.gitlab.com/tetris973/mono-next-nest-template/custom-node-image:latest
+# image: registry.gitlab.com/tetris973/reseo/custom-node-image:latest
 
 # # stages: Defines the stages in the CI/CD pipeline and their order of execution.
 # stages:
@@ -124,7 +124,7 @@
 #     - pnpm run test:e2e
 
 # e2e-test-frontend:
-#   image: registry.gitlab.com/tetris973/mono-next-nest-template/custom-playwright-image:latest # Use custom playwright image built with all its dependencies
+#   image: registry.gitlab.com/tetris973/reseo/custom-playwright-image:latest # Use custom playwright image built with all its dependencies
 #   services:
 #     - postgres
 #   stage: test
@@ -184,17 +184,17 @@
 # #     - docker compose -f docker/production/docker-compose.yml build
 
 # #     # Push lasted image
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/nest:latest
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/next:latest
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:latest
+# #     - docker push registry.gitlab.com/tetris973/reseo/nest:latest
+# #     - docker push registry.gitlab.com/tetris973/reseo/next:latest
+# #     - docker push registry.gitlab.com/tetris973/reseo/prisma-migrate:latest
 
 # #     # Tag and push with commit SHA to be able to track the version of the image and rollback if needed
-# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/nest:latest registry.gitlab.com/tetris973/mono-next-nest-template/nest:$CI_COMMIT_SHA
-# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/next:latest registry.gitlab.com/tetris973/mono-next-nest-template/next:$CI_COMMIT_SHA
-# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:latest registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:$CI_COMMIT_SHA
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/nest:$CI_COMMIT_SHA
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/next:$CI_COMMIT_SHA
-# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:$CI_COMMIT_SHA
+# #     - docker tag registry.gitlab.com/tetris973/reseo/nest:latest registry.gitlab.com/tetris973/reseo/nest:$CI_COMMIT_SHA
+# #     - docker tag registry.gitlab.com/tetris973/reseo/next:latest registry.gitlab.com/tetris973/reseo/next:$CI_COMMIT_SHA
+# #     - docker tag registry.gitlab.com/tetris973/reseo/prisma-migrate:latest registry.gitlab.com/tetris973/reseo/prisma-migrate:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/reseo/nest:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/reseo/next:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/reseo/prisma-migrate:$CI_COMMIT_SHA
 # #   # disabled For testing
 # #   # only:
 # #   #   - main

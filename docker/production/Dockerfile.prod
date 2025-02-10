@@ -4,7 +4,7 @@
 # <name>:<tag> = nest:latest
 # docker build --tag <name>:<tag> --target <target> -f docker/production/Dockerfile.prod .
 
-FROM registry.gitlab.com/tetris973/mono-next-nest-template/custom-node-image:latest AS base
+FROM registry.gitlab.com/tetris973/reseo/custom-node-image:latest AS base
 
 
 # Install dependencies

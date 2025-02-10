@@ -26,12 +26,12 @@ Follow these steps to set up the project on your local machine:
 
 1. Clone the repository
    ```bash
-   git clone https://gitlab.com/tetris973/mono-next-nest-template.git
+   git clone https://gitlab.com/tetris973/reseo.git
    ```
 
 2. Navigate to the project directory
    ```bash
-   cd mono-next-nest-template
+   cd reseo
    ```
 
 3. Install dependencies
