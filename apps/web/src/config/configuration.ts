@@ -28,7 +28,6 @@ export function getServerConfig(): ServerEnv {
     NODE_ENV: process.env.NODE_ENV,
     LOG_LEVEL: process.env.LOG_LEVEL,
     LOG_TARGET: process.env.LOG_TARGET,
-    BACKEND_URL: process.env.BACKEND_URL,
   });
 
   if (!result.success) {

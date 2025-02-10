@@ -14,7 +14,6 @@ export const serverEnvSchema = z.object({
   NODE_ENV: z.nativeEnum(NodeEnv).optional().default(NodeEnv.Development),
   LOG_TARGET: z.nativeEnum(LogTarget).optional().default(LogTarget.PINO_PRETTY),
   LOG_LEVEL: z.nativeEnum(LogLevel).optional().default(LogLevel.INFO),
-  BACKEND_URL: z.string(),
 });
 
 /**

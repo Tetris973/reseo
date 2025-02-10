@@ -6,6 +6,5 @@ export const mockGetConfig = (): ServerEnv => {
     NODE_ENV: NodeEnv.Test,
     LOG_TARGET: LogTarget.PINO_FILE,
     LOG_LEVEL: LogLevel.DEBUG,
-    BACKEND_URL: 'http://localhost:4000',
   };
 };

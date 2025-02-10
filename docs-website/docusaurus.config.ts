@@ -11,12 +11,12 @@ const config: Config = {
   url: 'https://tetris973.gitlab.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/mono-next-nest-template/',
+  baseUrl: '/reseo/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'tetris973', // Usually your GitHub org/user name.
-  projectName: 'mono-next-nest-template', // Usually your repo name.
+  projectName: 'reseo', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -38,7 +38,7 @@ const config: Config = {
           routeBasePath: '/docs',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://gitlab.com/tetris973/mono-next-nest-template/-/tree/main/docs-website',
+          editUrl: 'https://gitlab.com/tetris973/reseo/-/tree/main/docs-website',
           /**
            * LastUpdateTime and LastUpdateAuthor are important to trace back changes to the documentation.
            * It is also helpful to know if the documentation is still relevant.
@@ -83,7 +83,7 @@ const config: Config = {
           label: 'Documentation',
         },
         {
-          href: 'https://gitlab.com/tetris973/mono-next-nest-template',
+          href: 'https://gitlab.com/tetris973/reseo',
           label: 'GitLab',
           position: 'right',
         },
@@ -106,7 +106,7 @@ const config: Config = {
           items: [
             {
               label: 'GitLab',
-              href: 'https://gitlab.com/tetris973/mono-next-nest-template',
+              href: 'https://gitlab.com/tetris973/reseo',
             },
           ],
         },
