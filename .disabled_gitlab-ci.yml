@@ -1,0 +1,200 @@
+# # image: node:20
+# image: registry.gitlab.com/tetris973/mono-next-nest-template/custom-node-image:latest
+
+# # stages: Defines the stages in the CI/CD pipeline and their order of execution.
+# stages:
+#   - install
+#   - lint
+#   - build
+#   - test
+# #  - docker
+#   - deploy
+
+# # variables: Sets environment variables that can be used throughout the pipeline.
+# variables:
+#   DOCKER_DRIVER: overlay2
+#   NODE_ENV: 'development' # for CI, building, linting, testing everything should run in development mode, Only when deploying should it be in production mode
+#   # Variables for the postgres service, source -> gitlab CI variables, same value as in the $NEST_ENV_FILE
+#   POSTGRES_DB: $POSTGRES_SERVICE_DB
+#   POSTGRES_USER: $POSTGRES_SERVICE_USER
+#   POSTGRES_PASSWORD: $POSTGRES_SERVICE_PASSWORD
+
+# cache: &default_cache
+#   key: ${CI_COMMIT_REF_SLUG}
+#   paths:
+#     - node_modules/
+#     # remember to cache all sub project dependencies, because pnpm install is done only once here and not in each job
+#     - apps/server/node_modules/
+#     - apps/web/node_modules/
+#     - apps/web/.next/cache/
+#     - packages/backend-api-sdk/node_modules/
+#     - docs-website/node_modules/
+#     - docs-website/.docusaurus/
+#   policy: pull # policy for all job, only enable to pull
+
+# before_script:
+#   - pnpm install # Needed in custom runner to reuse the dependencies and create the node_modules from each sub projects.
+
+# install:
+#   cache:
+#     <<: *default_cache
+#     policy: pull-push # Override the policy to pull only to update the dependency cache
+#   stage: install
+#   script:
+#     - pnpm install
+
+# lint-backend:
+#   stage: lint
+#   script:
+#     - cd apps/server
+#     - pnpm run lint
+
+# lint-frontend:
+#   stage: lint
+#   script:
+#     - cd apps/web
+#     - pnpm run lint
+
+# build-backend:
+#   stage: build
+#   cache:
+#     <<: *default_cache
+#     policy: pull-push # Override the policy to pull only to update the next build cache
+#   script:
+#     - cd apps/server
+#     # Copy gitlab env file needed for Nest
+#     - cp $NEST_ENV_FILE ./.env.production.local
+#     - pnpm db-generate
+#     - pnpm run build
+#   artifacts:
+#     paths:
+#       - apps/server/dist
+#     expire_in: 1 week
+
+# build-frontend:
+#   stage: build
+#   script:
+#     - cd apps/web
+#     # Copy the env file needed for Next build
+#     - cp $NEXT_ENV_FILE ./.env.production.local
+#     - export NODE_ENV=production # production is needed for Next build otherwise error
+#     - pnpm run build
+#   artifacts:
+#     paths:
+#       - apps/web/.next
+#     expire_in: 1 week
+
+# build-docs:
+#   stage: build
+#   script:
+#     - cd docs-website
+#     - pnpm install
+#     - pnpm run build
+#   artifacts:
+#     paths:
+#       - docs-website/build
+#     expire_in: 1 week
+
+# unit-test-backend:
+#   stage: test
+#   script:
+#     - cd apps/server
+#     - export NODE_ENV=test # the test will look for an env file with the name corresponding to the current NODE_ENV
+#     - cp $NEST_ENV_FILE ./.env.test.local # Test env file is needed instead of prod for the test to run, Because when running vitest, NODE_ENV is set to test always.
+#     - pnpm db-generate # Generate the prisma client needed for tests
+#     - pnpm run test
+
+# unit-test-frontend:
+#   stage: test
+#   script:
+#     - export NODE_ENV=test
+#     - cd apps/web
+#     - pnpm run test
+
+# e2e-test-backend:
+#   services:
+#     - postgres # Tell the CI to host the postgress database for tests
+#   stage: test
+#   script:
+#     - export NODE_ENV=test
+#     - cd apps/server
+#     - cp $NEST_ENV_FILE ./.env.test.local
+#     - pnpm db-generate
+#     - pnpm db-migrate:test # Create and seed the test_db database
+#     - pnpm run test:e2e
+
+# e2e-test-frontend:
+#   image: registry.gitlab.com/tetris973/mono-next-nest-template/custom-playwright-image:latest # Use custom playwright image built with all its dependencies
+#   services:
+#     - postgres
+#   stage: test
+#   script:
+#     - export NODE_ENV=production
+#     # setup the backend that is used for the frontend test
+#     - cd apps/server
+#     - cp $NEST_ENV_FILE ./.env.production.local
+#     - pnpm db-generate # needs the prisma client to seed the database
+#     - pnpm db-migrate:prod # Create and seed the prod_db database, because starting nest in prod mode
+#     - cd ../web
+#     - cp $NEXT_ENV_FILE ./.env.production.local
+#     - pnpm exec playwright install # Install the playwright browser needed for tests
+#     - pnpm run test:e2e # This command will seed the prod_db database and run the playwright test that runs both server in production mode
+#   artifacts:
+#     when: always
+#     paths:
+#       - apps/web/test-results/
+#       - apps/web/playwright-report/
+#     expire_in: 1 week
+
+
+# pages:
+#   stage: deploy
+#   script:
+#     - mv docs-website/build public
+#   artifacts:
+#     paths:
+#       - public
+#     expire_in: 1 month
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# # docker-build:
+# #   stage: docker
+# #   image: docker:20.10.16
+# #   services:
+# #     - name: docker:20.10.16-dind
+# #       alias: docker
+# #   variables:
+# #     DOCKER_HOST: tcp://docker:2376
+# #     DOCKER_TLS_CERTDIR: "/certs"
+# #     DOCKER_TLS_VERIFY: 1
+# #     DOCKER_CERT_PATH: "/certs/client"
+# #   before_script:
+# #     - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+# #     after_script:
+# #     - docker logout $CI_REGISTRY
+# #   script:
+# #     # Put the .env file needed for building images, 
+# #     - cp $DOCKER_NEST_ENV_FILE ./docker/production/.env.nest
+# #     - cp $DOCKER_NEXT_ENV_FILE ./docker/production/.env.next
+# #     - cp $DOCKER_PRISMA_MIGRATE_ENV_FILE ./docker/production/.env.prisma-migrate
+# #     - cp $DOCKER_POSTGRES_ENV_FILE ./docker/production/.env.postgres
+
+# #     # Build images
+# #     - docker compose -f docker/production/docker-compose.yml build
+
+# #     # Push lasted image
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/nest:latest
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/next:latest
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:latest
+
+# #     # Tag and push with commit SHA to be able to track the version of the image and rollback if needed
+# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/nest:latest registry.gitlab.com/tetris973/mono-next-nest-template/nest:$CI_COMMIT_SHA
+# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/next:latest registry.gitlab.com/tetris973/mono-next-nest-template/next:$CI_COMMIT_SHA
+# #     - docker tag registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:latest registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/nest:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/next:$CI_COMMIT_SHA
+# #     - docker push registry.gitlab.com/tetris973/mono-next-nest-template/prisma-migrate:$CI_COMMIT_SHA
+# #   # disabled For testing
+# #   # only:
+# #   #   - main

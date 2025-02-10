@@ -1,0 +1,50 @@
+{
+  "extends": "../../tsconfig.json", // extend the root tsconfig
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    // "esnext" is recommended for Next.js projects to enable modern ES module syntax, which is compatible with the latest JavaScript features and optimizations, especially for client-side and server-side rendering in Next.js applications.
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    /**
+     * This Line is very important otherwise all vitest test using jsdom element such as .toBeInTheDocument() will throw error not found.
+     * This wasn't needed until adding @storybook/test that seems to perform some kind of injection that is not compatible with jsdom.
+     * For the moment  @storybook/test was added only to mock funcrion in stories with fn().
+     * TODO: A check for using storybook for testing component and unit tests still need to be done.
+     */
+    "types": ["@testing-library/jest-dom"],
+    "paths": {
+      "@webRoot/*": [
+        "./apps/web/*"
+      ],
+      "@web/*": [
+        "./apps/web/src/*"
+      ],
+      "@testWeb/*": [
+        "./apps/web/test/*"
+      ],
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next.config.mjs",
+    // So that ts knows the jest-dom functions from expect
+    "test/vitest.setup.mts"
+  ],
+  "exclude": [
+    "node_modules",
+  ],
+}
