@@ -46,10 +46,21 @@ const nextConfig = {
   },
 
   /**
-   * To produce a minimal standalone output, make it easier to deploy the app on non-vercel host.
-   * Also used to deploy a folder with pnpm deploy, that contains everything needed to run in production.
+   * Static export configuration
+   *
+   * Images strategy:
+   * - Currently using unoptimized images as the app has minimal image requirements
+   * - TODO: If image optimization becomes necessary (and still using static export), consider:
+   *   1. Using a CDN service (Cloudinary, Imgix, etc.) with a custom loader
+   *   2. Implementing self-hosted image optimization
+   *   3. Pre-optimizing images during build time
+   *
+   * @see https://nextjs.org/docs/app/api-reference/components/image#unoptimized
    */
-  output: 'standalone',
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
 
   webpack: (config) => {
     // Ignored files in tsconfig.build was not working, This rule works to prevent compilation of development files (test, stories, and e2e files)

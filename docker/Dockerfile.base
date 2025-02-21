@@ -11,6 +11,8 @@ FROM node:20-bookworm-slim
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+# Pin specific PNPM version to avoid signature verification issues
+RUN corepack prepare pnpm@9.15.0 --activate
 
 # Install OpenSSL needed for Prisma
 RUN apt-get update -y && \
