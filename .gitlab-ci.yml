@@ -1,16 +1,15 @@
-# # image: node:20
-# image: registry.gitlab.com/tetris973/reseo/custom-node-image:latest
+image: registry.gitlab.com/tetris973/reseo/custom-node-image:latest
 
-# # stages: Defines the stages in the CI/CD pipeline and their order of execution.
-# stages:
-#   - install
-#   - lint
-#   - build
-#   - test
-# #  - docker
-#   - deploy
+# Defines the stages in the CI/CD pipeline and their order of execution.
+stages:
+  - install
+  - lint
+  - build
+  #   - test
+  #   - docker
+  - deploy
 
-# # variables: Sets environment variables that can be used throughout the pipeline.
+# Sets environment variables that can be used throughout the pipeline.
 # variables:
 #   DOCKER_DRIVER: overlay2
 #   NODE_ENV: 'development' # for CI, building, linting, testing everything should run in development mode, Only when deploying should it be in production mode
@@ -19,29 +18,29 @@
 #   POSTGRES_USER: $POSTGRES_SERVICE_USER
 #   POSTGRES_PASSWORD: $POSTGRES_SERVICE_PASSWORD
 
-# cache: &default_cache
-#   key: ${CI_COMMIT_REF_SLUG}
-#   paths:
-#     - node_modules/
-#     # remember to cache all sub project dependencies, because pnpm install is done only once here and not in each job
-#     - apps/server/node_modules/
-#     - apps/web/node_modules/
-#     - apps/web/.next/cache/
-#     - packages/backend-api-sdk/node_modules/
-#     - docs-website/node_modules/
-#     - docs-website/.docusaurus/
-#   policy: pull # policy for all job, only enable to pull
+cache: &default_cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    # remember to cache all sub project dependencies, because pnpm install is done only once here and not in each job
+    # - apps/server/node_modules/
+    - apps/web/node_modules/
+    - apps/web/.next/cache/
+    # - packages/backend-api-sdk/node_modules/
+    # - docs-website/node_modules/
+    # - docs-website/.docusaurus/
+  policy: pull # policy for all job, only enable to pull
 
-# before_script:
-#   - pnpm install # Needed in custom runner to reuse the dependencies and create the node_modules from each sub projects.
+before_script:
+  - pnpm install # Needed in custom runner to reuse the dependencies and create the node_modules from each sub projects.
 
-# install:
-#   cache:
-#     <<: *default_cache
-#     policy: pull-push # Override the policy to pull only to update the dependency cache
-#   stage: install
-#   script:
-#     - pnpm install
+install:
+  cache:
+    <<: *default_cache
+    policy: pull-push # Override the policy to pull only to update the dependency cache
+  stage: install
+  script:
+    - pnpm install
 
 # lint-backend:
 #   stage: lint
@@ -49,11 +48,11 @@
 #     - cd apps/server
 #     - pnpm run lint
 
-# lint-frontend:
-#   stage: lint
-#   script:
-#     - cd apps/web
-#     - pnpm run lint
+lint-frontend:
+  stage: lint
+  script:
+    - cd apps/web
+    - pnpm run lint
 
 # build-backend:
 #   stage: build
@@ -71,18 +70,18 @@
 #       - apps/server/dist
 #     expire_in: 1 week
 
-# build-frontend:
-#   stage: build
-#   script:
-#     - cd apps/web
-#     # Copy the env file needed for Next build
-#     - cp $NEXT_ENV_FILE ./.env.production.local
-#     - export NODE_ENV=production # production is needed for Next build otherwise error
-#     - pnpm run build
-#   artifacts:
-#     paths:
-#       - apps/web/.next
-#     expire_in: 1 week
+build-frontend:
+  stage: build
+  script:
+    - cd apps/web
+    # Copy the env file needed for Next build
+    # - cp $NEXT_ENV_FILE ./.env.production.local
+    - export NODE_ENV=production # production is needed for Next build otherwise error
+    - pnpm run build
+  artifacts:
+    paths:
+      - apps/web/.next
+    expire_in: 1 week
 
 # build-docs:
 #   stage: build
@@ -146,7 +145,6 @@
 #       - apps/web/playwright-report/
 #     expire_in: 1 week
 
-
 # pages:
 #   stage: deploy
 #   script:
@@ -158,6 +156,17 @@
 #   rules:
 #     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+# deploy nextjs static export to gitlab pages
+pages:
+  stage: deploy
+  script:
+    - mv apps/web/out public
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 month
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 # # docker-build:
 # #   stage: docker
 # #   image: docker:20.10.16
@@ -174,7 +183,7 @@
 # #     after_script:
 # #     - docker logout $CI_REGISTRY
 # #   script:
-# #     # Put the .env file needed for building images, 
+# #     # Put the .env file needed for building images,
 # #     - cp $DOCKER_NEST_ENV_FILE ./docker/production/.env.nest
 # #     - cp $DOCKER_NEXT_ENV_FILE ./docker/production/.env.next
 # #     - cp $DOCKER_PRISMA_MIGRATE_ENV_FILE ./docker/production/.env.prisma-migrate
