@@ -1,9 +1,15 @@
+// In mantine doc it says to use styles.css, but with mantine-datatable it does not work
+// So we use styles.layer.css instead. Maybe to import it to the mantine layer we defined in ./layout.css
+import '@mantine/core/styles.layer.css';
+import '@mantine/notifications/styles.layer.css';
+import 'mantine-datatable/styles.layer.css'; // Needs to be after mantine-core styles
+import './layout.css';
+
 import { ColorSchemeScript, AppShell } from '@mantine/core';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Providers } from './providers';
 import '@web/lib/fontawesome';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

@@ -1,31 +1,23 @@
 {
-    /** 
-     * To be able to select the workspace typescript
-     * This typescript version is a custom typescript provided by NextJs to perform extended verification
-     * such as use of async for every Nextjs server side functions, useffect only in client, etc;
-     */
-    "typescript.tsdk": "./apps/web/node_modules/typescript/lib",
-    "typescript.preferences.importModuleSpecifier": "non-relative",
-    "workbench.iconTheme": "material-icon-theme",
-    "material-icon-theme.activeIconPack": "nest",
-    "material-icon-theme.files.associations": {
-        "vitest.config.e2e.mts": "vitest",
-        "vitest.config.unit.mts": "vitest"
-    },
-    // These set the default formatter for TypeScript, TypeScript React, and JavaScript files to ESLint
-    "[typescript]": {
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
-    "[typescriptreact]":{
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
-    "[javascript]":{
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-    },
-    "playwright.env": {
-        "LOG_TARGET": "pino/file",
-        "LOG_LEVEL": "info",
-        "BACKEND_URL": "http://localhost:4000",
-        "NEXT_PUBLIC_BROWSER_LOG_LEVEL": "info"
-    }
+  /**
+   * To be able to select the workspace typescript
+   * This typescript version is a custom typescript provided by NextJs to perform extended verification
+   * such as use of async for every Nextjs server side functions, useffect only in client, etc;
+   */
+  "typescript.tsdk": "./apps/web/node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.activeIconPack": "nest",
+  "material-icon-theme.files.associations": {
+    "vitest.config.e2e.mts": "vitest",
+    "vitest.config.unit.mts": "vitest"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "playwright.env": {
+    "LOG_TARGET": "pino/file",
+    "LOG_LEVEL": "info",
+    "BACKEND_URL": "http://localhost:4000",
+    "NEXT_PUBLIC_BROWSER_LOG_LEVEL": "info"
+  }
 }
