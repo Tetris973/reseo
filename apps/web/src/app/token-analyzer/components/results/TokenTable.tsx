@@ -1,13 +1,16 @@
 import { DataTable } from 'mantine-datatable';
-import { Paper, Flex, Text, Button } from '@mantine/core';
+import { Paper, Flex, Text, Button, SegmentedControl, Group } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { TokenGroupType, TokenEntity } from '@web/app/token-analyzer/services';
+import { TokenChip } from './TokenChip';
 
 export interface TokenGroupConfig {
   type: TokenGroupType;
   title: string;
   description: string;
 }
+
+export type TokenInteractionMode = 'filter' | 'star';
 
 interface TokenTableProps {
   config: TokenGroupConfig;
@@ -16,6 +19,8 @@ interface TokenTableProps {
   customFilters: Set<string>;
   stopWordsEnabled: boolean;
   stopWordsFilterable: Set<string>;
+  staredTokens: Set<string>;
+  onToggleStar: (token: string) => void;
 }
 
 const PAGE_SIZE = 20;
@@ -27,13 +32,17 @@ export function TokenTable({
   customFilters,
   stopWordsEnabled,
   stopWordsFilterable,
+  staredTokens,
+  onToggleStar,
 }: TokenTableProps) {
   const [showFilteredTokens, setShowFilteredTokens] = useState(false);
+  const [showOnlyStarredTokens, setShowOnlyStarredTokens] = useState(false);
   const [page, setPage] = useState(1);
+  const [interactionMode, setInteractionMode] = useState<TokenInteractionMode>('filter');
 
   useEffect(() => {
     setPage(1);
-  }, [showFilteredTokens]);
+  }, [showFilteredTokens, showOnlyStarredTokens]);
 
   const baseEntries = entries.filter(
     (entry) =>
@@ -42,13 +51,19 @@ export function TokenTable({
       !(stopWordsEnabled && stopWordsFilterable.has(entry.token.toLowerCase())) &&
       // Show custom filtered tokens only when showFilteredTokens is true
       // customFilters is never normalized, so we need to compare the original token
-      (showFilteredTokens || !customFilters.has(entry.token)),
+      (showFilteredTokens || !customFilters.has(entry.token)) &&
+      // Show only starred tokens when showOnlyStarredTokens is true
+      (!showOnlyStarredTokens || staredTokens.has(entry.token)),
   );
 
   const paginatedEntries = baseEntries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const handleRowClick = ({ record }: { record: TokenEntity }) => {
-    onToggleFilter(record.token);
+    if (interactionMode === 'filter') {
+      onToggleFilter(record.token);
+    } else if (interactionMode === 'star') {
+      onToggleStar(record.token);
+    }
   };
 
   return (
@@ -72,12 +87,30 @@ export function TokenTable({
           </Text>
         </div>
         <Flex gap="xs">
+          <Group>
+            <SegmentedControl
+              size="xs"
+              value={interactionMode}
+              onChange={(value) => setInteractionMode(value as TokenInteractionMode)}
+              data={[
+                { label: 'Filter', value: 'filter' },
+                { label: 'Star', value: 'star' },
+              ]}
+            />
+          </Group>
           <Button
             variant={showFilteredTokens ? 'filled' : 'outline'}
             color={showFilteredTokens ? 'blue.8' : 'gray'}
             size="xs"
             onClick={() => setShowFilteredTokens(!showFilteredTokens)}>
             {showFilteredTokens ? 'Hide Filtered' : 'Show Filtered'}
+          </Button>
+          <Button
+            variant={showOnlyStarredTokens ? 'filled' : 'outline'}
+            color={showOnlyStarredTokens ? 'blue.8' : 'gray'}
+            size="xs"
+            onClick={() => setShowOnlyStarredTokens(!showOnlyStarredTokens)}>
+            {showOnlyStarredTokens ? 'Only Starred' : 'All Tokens'}
           </Button>
         </Flex>
       </Flex>
@@ -91,16 +124,12 @@ export function TokenTable({
             accessor: 'token',
             title: 'Token',
             render: (record) => {
-              const isCustomFiltered = customFilters.has(record.token);
               return (
-                <Text
-                  component="span"
-                  style={{
-                    textDecoration: isCustomFiltered ? 'line-through' : 'none',
-                    color: isCustomFiltered ? 'grey' : 'inherit',
-                  }}>
-                  {record.token}
-                </Text>
+                <TokenChip
+                  token={record.token}
+                  isStared={staredTokens.has(record.token)}
+                  isFiltered={customFilters.has(record.token)}
+                />
               );
             },
           },
