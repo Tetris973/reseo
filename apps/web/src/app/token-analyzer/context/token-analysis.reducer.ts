@@ -25,6 +25,11 @@ export function createInitialState(): TokenAnalysisState {
         triple: new Set<string>(),
       },
     },
+    staredTokens: {
+      single: new Set<string>(),
+      double: new Set<string>(),
+      triple: new Set<string>(),
+    },
     inputText: '',
     stopWordsDictionary: STOP_WORDS,
   };
@@ -88,6 +93,10 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
 
     case 'TOGGLE_CUSTOM_FILTER': {
       const { groupType, token } = action.payload;
+      // If the token is starred, don't allow filtering it
+      if (state.staredTokens[groupType].has(token)) {
+        return state;
+      }
       const currentCustomFilters = state.filters.customFilters[groupType];
       const newCustomFilters = new Set(currentCustomFilters);
 
@@ -107,6 +116,42 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
           },
         },
       };
+    }
+
+    case 'TOGGLE_STARRED_TOKEN': {
+      const { groupType, token } = action.payload;
+      const currentStaredTokens = state.staredTokens[groupType];
+      const newStaredTokens = new Set(currentStaredTokens);
+
+      if (newStaredTokens.has(token)) {
+        newStaredTokens.delete(token);
+      } else {
+        newStaredTokens.add(token);
+      }
+
+      const newState = {
+        ...state,
+        staredTokens: {
+          ...state.staredTokens,
+          [groupType]: newStaredTokens,
+        },
+      };
+
+      // When we star a token, it always removes it from the custom filters
+      if (state.filters.customFilters[groupType].has(token)) {
+        const newCustomFilters = new Set(state.filters.customFilters[groupType]);
+        newCustomFilters.delete(token);
+
+        newState.filters = {
+          ...newState.filters,
+          customFilters: {
+            ...newState.filters.customFilters,
+            [groupType]: newCustomFilters,
+          },
+        };
+      }
+
+      return newState;
     }
 
     default:

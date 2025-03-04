@@ -22,8 +22,8 @@ const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
 ];
 
 export function TokenResults() {
-  const { state, toggleCustomFilter } = useTokenAnalysis();
-  const { rawAnalysis, filters } = state;
+  const { state, toggleCustomFilter, toggleStaredToken } = useTokenAnalysis();
+  const { rawAnalysis, filters, staredTokens } = state;
 
   if (!rawAnalysis) {
     return (
@@ -49,6 +49,8 @@ export function TokenResults() {
             customFilters={filters.customFilters[config.type]}
             stopWordsEnabled={filters.stopWords.enabled[config.type]}
             stopWordsFilterable={filters.stopWords.filterableSets[config.type]}
+            staredTokens={staredTokens[config.type]}
+            onToggleStar={(token: string) => toggleStaredToken(config.type, token)}
           />
         </Grid.Col>
       ))}

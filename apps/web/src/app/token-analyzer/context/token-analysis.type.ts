@@ -14,6 +14,7 @@ export interface TokenAnalysisState {
     };
     customFilters: Record<TokenGroupType, Set<string>>;
   };
+  staredTokens: Record<TokenGroupType, Set<string>>;
   // Input state
   inputText: string;
   // Stop words dictionary (flat set)
@@ -25,11 +26,13 @@ export type TokenAnalysisAction =
   | { type: 'SET_ANALYSIS'; payload: TokenAnalysis }
   | { type: 'SET_FILTERABLE_TOKENS'; payload: Record<TokenGroupType, Set<string>> }
   | { type: 'TOGGLE_STOPWORDS_FILTER'; payload: { groupType: TokenGroupType } }
-  | { type: 'TOGGLE_CUSTOM_FILTER'; payload: { groupType: TokenGroupType; token: string } };
+  | { type: 'TOGGLE_CUSTOM_FILTER'; payload: { groupType: TokenGroupType; token: string } }
+  | { type: 'TOGGLE_STARRED_TOKEN'; payload: { groupType: TokenGroupType; token: string } };
 
 export interface TokenAnalysisContextType {
   state: TokenAnalysisState;
   setText: (text: string) => void;
   toggleStopWordsFilter: (groupType: TokenGroupType) => void;
   toggleCustomFilter: (groupType: TokenGroupType, token: string) => void;
+  toggleStaredToken: (groupType: TokenGroupType, token: string) => void;
 }

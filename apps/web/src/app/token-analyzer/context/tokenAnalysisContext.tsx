@@ -39,11 +39,19 @@ export function TokenAnalysisProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const toggleStaredToken = (groupType: TokenGroupType, token: string) => {
+    dispatch({
+      type: 'TOGGLE_STARRED_TOKEN',
+      payload: { groupType, token },
+    });
+  };
+
   const contextValue: TokenAnalysisContextType = {
     state,
     setText,
     toggleStopWordsFilter,
     toggleCustomFilter,
+    toggleStaredToken,
   };
 
   return <TokenAnalysisContext.Provider value={contextValue}>{children}</TokenAnalysisContext.Provider>;
