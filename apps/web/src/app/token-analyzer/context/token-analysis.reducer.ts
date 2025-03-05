@@ -1,6 +1,7 @@
 import { TokenAnalysisState, TokenAnalysisAction } from '@web/app/token-analyzer/context/token-analysis.type';
 import { calculateFilterableSets } from '@web/app/token-analyzer/context/token-analysis.helper';
 import { STOP_WORDS } from '@web/app/token-analyzer/data/stopwords.helper';
+import { debouncedSaveTokenData } from '@web/app/token-analyzer/services/store-token.service';
 
 // Create initial state with built-in stop words dictionary
 export function createInitialState(): TokenAnalysisState {
@@ -106,7 +107,7 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
         newCustomFilters.add(token);
       }
 
-      return {
+      const newState = {
         ...state,
         filters: {
           ...state.filters,
@@ -116,6 +117,9 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
           },
         },
       };
+
+      debouncedSaveTokenData(newState);
+      return newState;
     }
 
     case 'TOGGLE_STARRED_TOKEN': {
@@ -150,6 +154,21 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
           },
         };
       }
+
+      debouncedSaveTokenData(newState);
+      return newState;
+    }
+
+    case 'LOAD_STATE': {
+      const { customFilters, staredTokens } = action.payload;
+      const newState = {
+        ...state,
+        filters: {
+          ...state.filters,
+          customFilters,
+        },
+        staredTokens,
+      };
 
       return newState;
     }

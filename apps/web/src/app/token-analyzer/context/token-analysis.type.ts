@@ -1,4 +1,5 @@
 import { TokenAnalysis, TokenGroupType } from '@web/app/token-analyzer/services';
+import { TokenStorageData } from '@web/app/token-analyzer/services/store-token.service';
 
 export type FilterType = 'stopwords' | 'custom' | null;
 
@@ -27,7 +28,8 @@ export type TokenAnalysisAction =
   | { type: 'SET_FILTERABLE_TOKENS'; payload: Record<TokenGroupType, Set<string>> }
   | { type: 'TOGGLE_STOPWORDS_FILTER'; payload: { groupType: TokenGroupType } }
   | { type: 'TOGGLE_CUSTOM_FILTER'; payload: { groupType: TokenGroupType; token: string } }
-  | { type: 'TOGGLE_STARRED_TOKEN'; payload: { groupType: TokenGroupType; token: string } };
+  | { type: 'TOGGLE_STARRED_TOKEN'; payload: { groupType: TokenGroupType; token: string } }
+  | { type: 'LOAD_STATE'; payload: TokenStorageData };
 
 export interface TokenAnalysisContextType {
   state: TokenAnalysisState;

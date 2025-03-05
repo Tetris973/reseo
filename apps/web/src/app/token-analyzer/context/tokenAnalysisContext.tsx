@@ -4,13 +4,20 @@ import React, { createContext, useContext, useReducer, ReactNode, useEffect } fr
 import { TokenGroupType, analyzeText } from '@web/app/token-analyzer/services';
 import { TokenAnalysisContextType } from './token-analysis.type';
 import { tokenAnalysisReducer, createInitialState } from './token-analysis.reducer';
+import { loadTokenData } from '@web/app/token-analyzer/services/store-token.service';
 
-// Create context
 const TokenAnalysisContext = createContext<TokenAnalysisContextType | undefined>(undefined);
 
-// Provider component
 export function TokenAnalysisProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(tokenAnalysisReducer, createInitialState());
+
+  // Load token data from local storage on mount
+  useEffect(() => {
+    const data = loadTokenData();
+    if (data) {
+      dispatch({ type: 'LOAD_STATE', payload: data });
+    }
+  }, []);
 
   // Run analysis when text changes
   useEffect(() => {
