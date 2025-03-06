@@ -1,7 +1,8 @@
 import { TokenAnalysisState, TokenAnalysisAction } from '@web/app/token-analyzer/context/token-analysis.type';
 import { calculateFilterableSets } from '@web/app/token-analyzer/context/token-analysis.helper';
 import { STOP_WORDS } from '@web/app/token-analyzer/data/stopwords.helper';
-import { debouncedSaveTokenData } from '@web/app/token-analyzer/services/store-token.service';
+import { TokenStorageService } from '@web/app/token-analyzer/services/store-token.service';
+import { TextStorageService } from '@web/app/token-analyzer/services/store-text.service';
 
 // Create initial state with built-in stop words dictionary
 export function createInitialState(): TokenAnalysisState {
@@ -39,11 +40,17 @@ export function createInitialState(): TokenAnalysisState {
 // Reducer
 export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAnalysisAction): TokenAnalysisState {
   switch (action.type) {
-    case 'SET_TEXT':
-      return {
+    case 'SET_TEXT': {
+      const newState = {
         ...state,
         inputText: action.payload,
       };
+
+      // Save text to localStorage with debounce
+      TextStorageService.debouncedSave(action.payload);
+
+      return newState;
+    }
 
     case 'SET_ANALYSIS': {
       const filterableSets = calculateFilterableSets(action.payload.tokensByGroup, state.stopWordsDictionary);
@@ -118,7 +125,7 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
         },
       };
 
-      debouncedSaveTokenData(newState);
+      TokenStorageService.debouncedSave(newState);
       return newState;
     }
 
@@ -155,12 +162,23 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
         };
       }
 
-      debouncedSaveTokenData(newState);
+      TokenStorageService.debouncedSave(newState);
       return newState;
     }
 
-    case 'LOAD_STATE': {
-      const { customFilters, staredTokens } = action.payload;
+    case 'LOAD_TEXT': {
+      return {
+        ...state,
+        inputText: TextStorageService.load() || '',
+      };
+    }
+
+    case 'LOAD_TOKEN_DATA': {
+      const tokenData = TokenStorageService.load();
+      if (!tokenData) {
+        return state;
+      }
+      const { customFilters, staredTokens } = tokenData;
       const newState = {
         ...state,
         filters: {
