@@ -6,7 +6,7 @@ import { faFileExport, faFileImport } from '@fortawesome/free-solid-svg-icons';
 import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
 import { useRef } from 'react';
 
-export function ExportButton() {
+export function ExportImportButton() {
   const exportData = useTokenAnalysisStore((state) => state.exportData);
   const importData = useTokenAnalysisStore((state) => state.importData);
   const resetRef = useRef<() => void>(null);

@@ -1,8 +1,11 @@
 import { DataTable } from 'mantine-datatable';
-import { Paper, Flex, Text, Button, SegmentedControl, Group } from '@mantine/core';
+import { Paper, Flex, Text, Button, SegmentedControl, Group, Tooltip, ActionIcon } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { TokenGroupType, TokenEntity } from '@web/app/token-analyzer/services';
 import { TokenChip } from './token-chip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { modals } from '@mantine/modals';
 
 export interface TokenGroupConfig {
   type: TokenGroupType;
@@ -21,6 +24,7 @@ interface TokenTableProps {
   stopWordsFilterable: Set<string>;
   staredTokens: Set<string>;
   onToggleStar: (token: string) => void;
+  clearStaredTokens: () => void;
 }
 
 const PAGE_SIZE = 20;
@@ -34,6 +38,7 @@ export function TokenTable({
   stopWordsFilterable,
   staredTokens,
   onToggleStar,
+  clearStaredTokens,
 }: TokenTableProps) {
   const [showFilteredTokens, setShowFilteredTokens] = useState(false);
   const [showOnlyStarredTokens, setShowOnlyStarredTokens] = useState(false);
@@ -64,6 +69,16 @@ export function TokenTable({
     } else if (interactionMode === 'star') {
       onToggleStar(record.token);
     }
+  };
+
+  const handleClearStaredTokens = () => {
+    modals.openConfirmModal({
+      title: `Clear starred ${config.title.toLowerCase()}`,
+      children: `Are you sure you want to clear all starred ${config.title.toLowerCase()}? This action cannot be undone.`,
+      labels: { confirm: 'Clear stars', cancel: 'Cancel' },
+      confirmProps: { color: 'gray' },
+      onConfirm: clearStaredTokens,
+    });
   };
 
   return (
@@ -97,6 +112,15 @@ export function TokenTable({
                 { label: 'Star', value: 'star' },
               ]}
             />
+            <Tooltip label={`Clear all starred ${config.title.toLowerCase()}`}>
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={handleClearStaredTokens}
+                aria-label={`Clear starred ${config.title.toLowerCase()}`}>
+                <FontAwesomeIcon icon={faStar} />
+              </ActionIcon>
+            </Tooltip>
           </Group>
           <Button
             variant={showFilteredTokens ? 'filled' : 'outline'}

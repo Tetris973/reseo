@@ -30,4 +30,7 @@ export interface TokenAnalysisActions {
   loadData: () => void;
   exportData: () => void;
   importData: (file: File) => Promise<void>;
+  clearAll: () => void;
+  clearCustomFilters: (groupType: TokenGroupType) => void;
+  clearStaredTokens: (groupType: TokenGroupType) => void;
 }
