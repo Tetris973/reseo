@@ -1,8 +1,8 @@
 import { Paper, Stack, Text, ActionIcon, Flex, Collapse } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faCheck, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { TokenBadges } from './TokenBadges';
-import { TokenFilterData } from './TokenFilterLists';
+import { TokenBadges } from './token-badges';
+import { TokenFilterData } from './token-filter-lists';
 import { useState } from 'react';
 import { TokenEntity } from '@web/app/token-analyzer/services';
 

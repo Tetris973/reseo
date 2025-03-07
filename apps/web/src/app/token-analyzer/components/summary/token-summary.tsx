@@ -1,7 +1,7 @@
 import { Paper, Text, Group } from '@mantine/core';
 import { faListOl } from '@fortawesome/free-solid-svg-icons';
-import { StatItem } from './StatItem';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { StatItem } from './stat-item';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 
 export function TokenSummary() {
   const { state } = useTokenAnalysis();

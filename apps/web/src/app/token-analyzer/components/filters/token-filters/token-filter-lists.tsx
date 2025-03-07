@@ -1,6 +1,6 @@
 import { Grid } from '@mantine/core';
-import { TokenFilterSection } from './TokenFilterSection';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { TokenFilterSection } from './token-filter-section';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
 
 export interface TokenFilterData {

@@ -1,6 +1,6 @@
 import { Grid, Text } from '@mantine/core';
-import { TokenTable, TokenGroupConfig } from './TokenTable';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { TokenTable, TokenGroupConfig } from './token-table';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
 
 const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [

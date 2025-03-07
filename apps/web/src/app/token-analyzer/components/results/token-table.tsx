@@ -2,7 +2,7 @@ import { DataTable } from 'mantine-datatable';
 import { Paper, Flex, Text, Button, SegmentedControl, Group } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { TokenGroupType, TokenEntity } from '@web/app/token-analyzer/services';
-import { TokenChip } from './TokenChip';
+import { TokenChip } from './token-chip';
 
 export interface TokenGroupConfig {
   type: TokenGroupType;
