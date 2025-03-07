@@ -1,7 +1,8 @@
 import { Grid } from '@mantine/core';
 import { TokenFilterSection } from './token-filter-section';
-import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
+import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
+import { useShallow } from 'zustand/react/shallow';
 
 export interface TokenFilterData {
   type: TokenGroupType;
@@ -28,7 +29,13 @@ export const TOKEN_FILTER_CONFIGS: TokenFilterData[] = [
 ];
 
 export function TokenFilterLists() {
-  const { state, toggleCustomFilter } = useTokenAnalysis();
+  const { rawAnalysis, filters, toggleCustomFilter } = useTokenAnalysisStore(
+    useShallow((state) => ({
+      rawAnalysis: state.rawAnalysis,
+      filters: state.filters,
+      toggleCustomFilter: state.toggleCustomFilter,
+    })),
+  );
 
   return (
     <Grid>
@@ -38,9 +45,9 @@ export function TokenFilterLists() {
           key={config.type}>
           <TokenFilterSection
             config={config}
-            tokenTableEntries={state.rawAnalysis?.tokensByGroup[config.type] ?? []}
+            tokenTableEntries={rawAnalysis?.tokensByGroup[config.type] ?? []}
             onToggleFilter={(token) => toggleCustomFilter(config.type, token)}
-            customFilters={state.filters.customFilters[config.type]}
+            customFilters={filters.customFilters[config.type]}
           />
         </Grid.Col>
       ))}

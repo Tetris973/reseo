@@ -1,7 +1,8 @@
 import { Grid, Text } from '@mantine/core';
 import { TokenTable, TokenGroupConfig } from './token-table';
-import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
+import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
+import { useShallow } from 'zustand/react/shallow';
 
 const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
   {
@@ -22,8 +23,15 @@ const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
 ];
 
 export function TokenResults() {
-  const { state, toggleCustomFilter, toggleStaredToken } = useTokenAnalysis();
-  const { rawAnalysis, filters, staredTokens } = state;
+  const [rawAnalysis, filters, staredTokens, toggleCustomFilter, toggleStaredToken] = useTokenAnalysisStore(
+    useShallow((state) => [
+      state.rawAnalysis,
+      state.filters,
+      state.staredTokens,
+      state.toggleCustomFilter,
+      state.toggleStaredToken,
+    ]),
+  );
 
   if (!rawAnalysis) {
     return (
