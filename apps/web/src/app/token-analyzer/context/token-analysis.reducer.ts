@@ -191,6 +191,25 @@ export function tokenAnalysisReducer(state: TokenAnalysisState, action: TokenAna
       return newState;
     }
 
+    case 'IMPORT_DATA': {
+      const { inputText, customFilters, staredTokens } = action.payload;
+
+      const newState = {
+        ...state,
+        inputText,
+        filters: {
+          ...state.filters,
+          customFilters,
+        },
+        staredTokens,
+      };
+
+      TextStorageService.immediateSave(inputText);
+      TokenStorageService.immediateSave(newState);
+
+      return newState;
+    }
+
     default:
       return state;
   }

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useReducer, ReactNode, useEffect } from 'react';
 import { TokenGroupType, analyzeText } from '@web/app/token-analyzer/services';
+import { ExportImportService } from '@web/app/token-analyzer/services/export-import.service';
 import { TokenAnalysisContextType } from './token-analysis.type';
 import { tokenAnalysisReducer, createInitialState } from './token-analysis.reducer';
 
@@ -50,12 +51,32 @@ export function TokenAnalysisProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const exportData = () => {
+    const data = ExportImportService.downloadAsJson(state);
+    if (data) {
+      console.log(data);
+    }
+  };
+
+  const importData = async (file: File) => {
+    const importResult = await ExportImportService.importFromFile(file);
+    if (importResult) {
+      const { inputText, customFilters, staredTokens } = importResult;
+      dispatch({
+        type: 'IMPORT_DATA',
+        payload: { inputText, customFilters, staredTokens },
+      });
+    }
+  };
+
   const contextValue: TokenAnalysisContextType = {
     state,
     setText,
     toggleStopWordsFilter,
     toggleCustomFilter,
     toggleStaredToken,
+    exportData,
+    importData,
   };
 
   return <TokenAnalysisContext.Provider value={contextValue}>{children}</TokenAnalysisContext.Provider>;
