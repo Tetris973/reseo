@@ -1,10 +1,12 @@
-import { Paper, Stack, Text, ActionIcon, Flex, Collapse } from '@mantine/core';
+import { Paper, Stack, Text, ActionIcon, Flex, Collapse, Tooltip } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faCheck, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faCheck, faChevronDown, faChevronUp, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { TokenBadges } from './token-badges';
 import { TokenFilterData } from './token-filter-lists';
 import { useState } from 'react';
 import { TokenEntity } from '@web/app/token-analyzer/services';
+import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { modals } from '@mantine/modals';
 
 interface TokenFilterSectionProps {
   config: TokenFilterData;
@@ -21,6 +23,7 @@ export function TokenFilterSection({
 }: TokenFilterSectionProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const clearCustomFilters = useTokenAnalysisStore((state) => state.clearCustomFilters);
 
   const handleToggleEdit = () => {
     setIsEditing(!isEditing);
@@ -28,6 +31,16 @@ export function TokenFilterSection({
 
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
+  };
+
+  const handleClearCustomFilters = () => {
+    modals.openConfirmModal({
+      title: `Clear ${config.label} filters`,
+      children: `Are you sure you want to clear all custom filters for ${config.label.toLowerCase()}? This action cannot be undone.`,
+      labels: { confirm: 'Clear filters', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => clearCustomFilters(config.type),
+    });
   };
 
   return (
@@ -61,11 +74,25 @@ export function TokenFilterSection({
               {config.description}
             </Text>
           </div>
-          <ActionIcon
-            color={isEditing ? 'green' : 'blue'}
-            onClick={handleToggleEdit}>
-            <FontAwesomeIcon icon={isEditing ? faCheck : faPencil} />
-          </ActionIcon>
+          <Flex gap="xs">
+            <Tooltip label={`Edit ${config.label.toLowerCase()}`}>
+              <ActionIcon
+                variant="subtle"
+                color={isEditing ? 'green' : 'blue'}
+                onClick={handleToggleEdit}>
+                <FontAwesomeIcon icon={isEditing ? faCheck : faPencil} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label={`Clear all ${config.label.toLowerCase()}`}>
+              <ActionIcon
+                color="red"
+                variant="subtle"
+                onClick={handleClearCustomFilters}
+                aria-label={`Clear ${config.label} filters`}>
+                <FontAwesomeIcon icon={faTrash} />
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
         </Flex>
 
         <Collapse in={isExpanded}>

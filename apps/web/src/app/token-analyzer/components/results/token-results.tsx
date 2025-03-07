@@ -23,15 +23,17 @@ const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
 ];
 
 export function TokenResults() {
-  const [rawAnalysis, filters, staredTokens, toggleCustomFilter, toggleStaredToken] = useTokenAnalysisStore(
-    useShallow((state) => [
-      state.rawAnalysis,
-      state.filters,
-      state.staredTokens,
-      state.toggleCustomFilter,
-      state.toggleStaredToken,
-    ]),
-  );
+  const [rawAnalysis, filters, staredTokens, toggleCustomFilter, toggleStaredToken, clearStaredTokens] =
+    useTokenAnalysisStore(
+      useShallow((state) => [
+        state.rawAnalysis,
+        state.filters,
+        state.staredTokens,
+        state.toggleCustomFilter,
+        state.toggleStaredToken,
+        state.clearStaredTokens,
+      ]),
+    );
 
   if (!rawAnalysis) {
     return (
@@ -59,6 +61,7 @@ export function TokenResults() {
             stopWordsFilterable={filters.stopWords.filterableSets[config.type]}
             staredTokens={staredTokens[config.type]}
             onToggleStar={(token: string) => toggleStaredToken(config.type, token)}
+            clearStaredTokens={() => clearStaredTokens(config.type)}
           />
         </Grid.Col>
       ))}

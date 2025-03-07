@@ -198,4 +198,37 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
       TokenStorageService.immediateSave(get());
     }
   },
+
+  clearAll: () => {
+    set(createInitialState());
+    TextStorageService.clear();
+    TokenStorageService.clear();
+  },
+
+  clearCustomFilters: (groupType: TokenGroupType) => {
+    set((state) => ({
+      filters: {
+        ...state.filters,
+        customFilters: {
+          ...state.filters.customFilters,
+          [groupType]: new Set<string>(),
+        },
+      },
+    }));
+
+    // Save the updated state
+    TokenStorageService.immediateSave(get());
+  },
+
+  clearStaredTokens: (groupType: TokenGroupType) => {
+    set((state) => ({
+      staredTokens: {
+        ...state.staredTokens,
+        [groupType]: new Set<string>(),
+      },
+    }));
+
+    // Save the updated state
+    TokenStorageService.immediateSave(get());
+  },
 }));

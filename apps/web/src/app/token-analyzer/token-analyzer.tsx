@@ -6,7 +6,7 @@ import { StopWordsFilter } from './components/filters/stop-words/stop-words-filt
 import { TokenFilterLists } from './components/filters/token-filters/token-filter-lists';
 import { TokenSummary } from './components/summary/token-summary';
 import { TokenResults } from './components/results/token-results';
-import { ExportButton } from './components/export-button';
+import { GlobalButtons } from './components/global-buttons/global-buttons';
 import { useTokenAnalysisStore } from './store/token-analysis.store';
 import { useEffect } from 'react';
 
@@ -23,7 +23,7 @@ export function TokenAnalyzer() {
       radius="md"
       withBorder>
       <Stack gap="md">
-        <ExportButton />
+        <GlobalButtons />
         <DescriptionInput />
         <StopWordsFilter />
         <TokenFilterLists />
