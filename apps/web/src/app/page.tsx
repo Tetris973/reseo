@@ -1,7 +1,7 @@
 'use client';
 
 import { Container } from '@mantine/core';
-import { TokenAnalyzer } from '@webRoot/src/app/token-analyzer/TokenAnalyzer';
+import { TokenAnalyzer } from '@webRoot/src/app/token-analyzer/token-analyzer';
 
 export default function Home() {
   return (

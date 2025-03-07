@@ -1,7 +1,7 @@
 'use client';
 
 import { Textarea } from '@mantine/core';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 
 interface DescriptionInputProps {
   placeholder?: string;

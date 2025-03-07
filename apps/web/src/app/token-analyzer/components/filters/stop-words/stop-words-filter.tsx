@@ -1,9 +1,9 @@
-import { FilterSection } from './FilterSection';
-import { StopWordsList } from './StopWordsList';
+import { FilterSection } from './filter-section';
+import { StopWordsList } from './stop-words-list';
 import { Paper, Stack, Flex, Badge } from '@mantine/core';
 import { useState, useMemo } from 'react';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 import { groupStopWordsByFirstLetter } from '@web/app/token-analyzer/context/token-analysis.helper';
 
 export function StopWordsFilter() {

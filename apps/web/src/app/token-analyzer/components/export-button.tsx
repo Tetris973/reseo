@@ -3,7 +3,7 @@
 import { Button, Tooltip, Group, FileButton } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExport, faFileImport } from '@fortawesome/free-solid-svg-icons';
-import { useTokenAnalysis } from '@web/app/token-analyzer/context/tokenAnalysisContext';
+import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
 import { useRef } from 'react';
 
 export function ExportButton() {
