@@ -29,7 +29,15 @@ export type TokenAnalysisAction =
   | { type: 'TOGGLE_CUSTOM_FILTER'; payload: { groupType: TokenGroupType; token: string } }
   | { type: 'TOGGLE_STARRED_TOKEN'; payload: { groupType: TokenGroupType; token: string } }
   | { type: 'LOAD_TOKEN_DATA' }
-  | { type: 'LOAD_TEXT' };
+  | { type: 'LOAD_TEXT' }
+  | {
+      type: 'IMPORT_DATA';
+      payload: {
+        inputText: string;
+        customFilters: Record<TokenGroupType, Set<string>>;
+        staredTokens: Record<TokenGroupType, Set<string>>;
+      };
+    };
 
 export interface TokenAnalysisContextType {
   state: TokenAnalysisState;
@@ -37,4 +45,6 @@ export interface TokenAnalysisContextType {
   toggleStopWordsFilter: (groupType: TokenGroupType) => void;
   toggleCustomFilter: (groupType: TokenGroupType, token: string) => void;
   toggleStaredToken: (groupType: TokenGroupType, token: string) => void;
+  exportData: () => void;
+  importData: (file: File) => Promise<void>;
 }

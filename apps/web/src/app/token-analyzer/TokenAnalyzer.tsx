@@ -7,6 +7,7 @@ import { TokenFilterLists } from './components/filters/token-filters/TokenFilter
 import { TokenSummary } from './components/summary/TokenSummary';
 import { TokenResults } from './components/results/TokenResults';
 import { TokenAnalysisProvider } from './context/tokenAnalysisContext';
+import { ExportButton } from './components/ExportButton';
 
 export function TokenAnalyzer() {
   return (
@@ -16,6 +17,7 @@ export function TokenAnalyzer() {
         radius="md"
         withBorder>
         <Stack gap="md">
+          <ExportButton />
           <DescriptionInput />
           <StopWordsFilter />
           <TokenFilterLists />

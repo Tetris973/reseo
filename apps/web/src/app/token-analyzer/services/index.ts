@@ -5,3 +5,4 @@ export * from './tokenize-text.service';
 export * from './analyze-text.service';
 export { TextStorageService } from './store-text.service';
 export { TokenStorageService } from './store-token.service';
+export { ExportImportService } from './export-import.service';
