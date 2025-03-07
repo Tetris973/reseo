@@ -1,14 +1,15 @@
 'use client';
 
 import { Textarea } from '@mantine/core';
-import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
+import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
 
 interface DescriptionInputProps {
   placeholder?: string;
 }
 
 export function DescriptionInput({ placeholder = 'Enter job description' }: DescriptionInputProps) {
-  const { state, setText } = useTokenAnalysis();
+  const inputText = useTokenAnalysisStore((state) => state.inputText);
+  const setText = useTokenAnalysisStore((state) => state.setText);
 
   return (
     <Textarea
@@ -18,7 +19,7 @@ export function DescriptionInput({ placeholder = 'Enter job description' }: Desc
       autosize
       minRows={4}
       maxRows={8}
-      value={state.inputText}
+      value={inputText}
       onChange={(e) => setText(e.target.value)}
     />
   );

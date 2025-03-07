@@ -1,4 +1,4 @@
-import { TokenAnalysisState } from '@web/app/token-analyzer/context/token-analysis.type';
+import { TokenAnalysisState } from '@webRoot/src/app/token-analyzer/store/token-analysis.type';
 import { TokenGroupType } from '@web/app/token-analyzer/services/token-analysis.types';
 
 const TOKEN_ANALYSIS_DATA_KEY = 'tokenAnalysisData';

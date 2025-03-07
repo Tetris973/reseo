@@ -21,30 +21,13 @@ export interface TokenAnalysisState {
   stopWordsDictionary: Set<string>;
 }
 
-export type TokenAnalysisAction =
-  | { type: 'SET_TEXT'; payload: string }
-  | { type: 'SET_ANALYSIS'; payload: TokenAnalysis }
-  | { type: 'SET_FILTERABLE_TOKENS'; payload: Record<TokenGroupType, Set<string>> }
-  | { type: 'TOGGLE_STOPWORDS_FILTER'; payload: { groupType: TokenGroupType } }
-  | { type: 'TOGGLE_CUSTOM_FILTER'; payload: { groupType: TokenGroupType; token: string } }
-  | { type: 'TOGGLE_STARRED_TOKEN'; payload: { groupType: TokenGroupType; token: string } }
-  | { type: 'LOAD_TOKEN_DATA' }
-  | { type: 'LOAD_TEXT' }
-  | {
-      type: 'IMPORT_DATA';
-      payload: {
-        inputText: string;
-        customFilters: Record<TokenGroupType, Set<string>>;
-        staredTokens: Record<TokenGroupType, Set<string>>;
-      };
-    };
-
-export interface TokenAnalysisContextType {
-  state: TokenAnalysisState;
+export interface TokenAnalysisActions {
   setText: (text: string) => void;
+  setAnalysis: (analysis: TokenAnalysis) => void;
   toggleStopWordsFilter: (groupType: TokenGroupType) => void;
   toggleCustomFilter: (groupType: TokenGroupType, token: string) => void;
   toggleStaredToken: (groupType: TokenGroupType, token: string) => void;
+  loadData: () => void;
   exportData: () => void;
   importData: (file: File) => Promise<void>;
 }

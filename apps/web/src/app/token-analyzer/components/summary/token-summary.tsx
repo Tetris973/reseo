@@ -1,11 +1,11 @@
 import { Paper, Text, Group } from '@mantine/core';
 import { faListOl } from '@fortawesome/free-solid-svg-icons';
 import { StatItem } from './stat-item';
-import { useTokenAnalysis } from '@webRoot/src/app/token-analyzer/context/token-analysis.context';
+import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
 
 export function TokenSummary() {
-  const { state } = useTokenAnalysis();
-  const summary = state.rawAnalysis?.summary || {
+  const analysis = useTokenAnalysisStore((state) => state.rawAnalysis);
+  const summary = analysis?.summary || {
     rawTokenCount: 0,
     rawUniqueTokenCount: 0,
   };
