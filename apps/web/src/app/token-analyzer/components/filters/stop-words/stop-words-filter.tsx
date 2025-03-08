@@ -3,19 +3,19 @@ import { StopWordsList } from './stop-words-list';
 import { Paper, Stack, Flex, Badge } from '@mantine/core';
 import { useState, useMemo } from 'react';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
-import { groupStopWordsByFirstLetter } from '@webRoot/src/app/token-analyzer/store/token-analysis.helper';
-import { useShallow } from 'zustand/react/shallow';
+import {
+  useTokenAnalysisActions,
+  useFilters,
+  useStopWordsDictionary,
+} from '@web/app/token-analyzer/store/token-analysis-store.hooks';
+import { groupStopWordsByFirstLetter } from '@web/app/token-analyzer/store/token-analysis.helper';
 
 export function StopWordsFilter() {
   const [expandedSection, setExpandedSection] = useState<TokenGroupType | null>(null);
-  const { filters, stopWordsDictionary, toggleStopWordsFilter } = useTokenAnalysisStore(
-    useShallow((state) => ({
-      filters: state.filters,
-      stopWordsDictionary: state.stopWordsDictionary,
-      toggleStopWordsFilter: state.toggleStopWordsFilter,
-    })),
-  );
+  const tokenAnalysisActions = useTokenAnalysisActions();
+  const filters = useFilters();
+  const stopWordsDictionary = useStopWordsDictionary();
+  const toggleStopWordsFilter = tokenAnalysisActions.toggleStopWordsFilter;
 
   // Transform flat stop words set into alphabetical grouping for display
   const stopWordsByLetter = useMemo(() => {

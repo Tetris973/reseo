@@ -1,49 +1,26 @@
-import { create } from 'zustand';
-import { STOP_WORDS } from '@web/app/token-analyzer/data/stopwords.helper';
-import { TokenAnalysis, TokenGroupType, analyzeText } from '@web/app/token-analyzer/services';
+import { TokenGroupType, TokenAnalysis, analyzeText } from '@web/app/token-analyzer/services';
 import { TokenStorageService } from '@web/app/token-analyzer/services/store-token.service';
 import { TextStorageService } from '@web/app/token-analyzer/services/store-text.service';
 import { ExportImportService } from '@web/app/token-analyzer/services/export-import.service';
-import { calculateFilterableSets } from '@web/app/token-analyzer/store/token-analysis.helper';
-import { TokenAnalysisState, TokenAnalysisActions } from '@web/app/token-analyzer/store/token-analysis.type';
+import { calculateFilterableSets } from './token-analysis.helper';
+import { TokenAnalysisActions, TokenAnalysisStore, TokenAnalysisState } from './token-analysis-store.types';
+import { createInitialState } from './token-analysis-store.state';
+import { StoreApi } from 'zustand';
 
-// Create initial state structure
-const createInitialState = (): TokenAnalysisState => ({
-  rawAnalysis: null,
-  filters: {
-    stopWords: {
-      enabled: {
-        single: true,
-        double: true,
-        triple: true,
-      },
-      filterableSets: {
-        single: new Set<string>(),
-        double: new Set<string>(),
-        triple: new Set<string>(),
-      },
-    },
-    customFilters: {
-      single: new Set<string>(),
-      double: new Set<string>(),
-      triple: new Set<string>(),
-    },
-  },
-  staredTokens: {
-    single: new Set<string>(),
-    double: new Set<string>(),
-    triple: new Set<string>(),
-  },
-  inputText: '',
-  stopWordsDictionary: STOP_WORDS,
-});
+// Type for the get and set functions passed by Zustand
+type TokenAnalysisActionsContext = {
+  get: StoreApi<TokenAnalysisStore>['getState'];
+  set: StoreApi<TokenAnalysisStore>['setState'];
+};
 
-export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisActions>((set, get) => ({
-  ...createInitialState(),
+/**
+ * Creates the actions for the token analysis store
+ */
+export const createActions = ({ get, set }: TokenAnalysisActionsContext): TokenAnalysisActions => ({
   setText: (text: string) => {
     set({ inputText: text });
     const analysis = analyzeText(text);
-    get().setAnalysis(analysis);
+    get().actions.setAnalysis(analysis);
     TextStorageService.debouncedSave(text);
   },
 
@@ -63,7 +40,7 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
   },
 
   toggleStopWordsFilter: (groupType: TokenGroupType) => {
-    set((state: TokenAnalysisState) => ({
+    set((state) => ({
       filters: {
         ...state.filters,
         stopWords: {
@@ -83,7 +60,7 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
       return;
     }
 
-    set((state: TokenAnalysisState) => {
+    set((state) => {
       const currentCustomFilters = state.filters.customFilters[groupType];
       const newCustomFilters = new Set(currentCustomFilters);
 
@@ -104,11 +81,12 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
       };
     });
 
-    TokenStorageService.debouncedSave(get());
+    const { actions, ...stateToSave } = get();
+    TokenStorageService.debouncedSave(stateToSave);
   },
 
   toggleStaredToken: (groupType: TokenGroupType, token: string) => {
-    set((state: TokenAnalysisState) => {
+    set((state) => {
       const currentStaredTokens = state.staredTokens[groupType];
       const newStaredTokens = new Set(currentStaredTokens);
 
@@ -142,10 +120,10 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
       return newState as Partial<TokenAnalysisState>;
     });
 
-    TokenStorageService.debouncedSave(get());
+    const { actions, ...stateToSave } = get();
+    TokenStorageService.debouncedSave(stateToSave);
   },
 
-  // Load data from localStorage
   loadData: () => {
     const savedText = TextStorageService.load() || '';
     const tokenData = TokenStorageService.load();
@@ -153,7 +131,7 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
     if (tokenData) {
       const { customFilters, staredTokens } = tokenData;
 
-      set((state: TokenAnalysisState) => ({
+      set((state) => ({
         inputText: savedText,
         filters: {
           ...state.filters,
@@ -168,12 +146,13 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
     // Run analysis if we have text
     if (savedText) {
       const analysis = analyzeText(savedText);
-      get().setAnalysis(analysis);
+      get().actions.setAnalysis(analysis);
     }
   },
 
   exportData: () => {
-    ExportImportService.downloadAsJson(get());
+    const { actions, ...stateToExport } = get();
+    ExportImportService.downloadAsJson(stateToExport);
   },
 
   importData: async (file: File) => {
@@ -182,7 +161,7 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
     if (importResult) {
       const { inputText, customFilters, staredTokens } = importResult;
 
-      set((state: TokenAnalysisState) => ({
+      set((state) => ({
         inputText,
         filters: {
           ...state.filters,
@@ -192,10 +171,11 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
       }));
 
       const analysis = analyzeText(inputText);
-      get().setAnalysis(analysis);
+      get().actions.setAnalysis(analysis);
 
       TextStorageService.immediateSave(inputText);
-      TokenStorageService.immediateSave(get());
+      const { actions, ...stateToSave } = get();
+      TokenStorageService.immediateSave(stateToSave);
     }
   },
 
@@ -217,7 +197,8 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
     }));
 
     // Save the updated state
-    TokenStorageService.immediateSave(get());
+    const { actions, ...stateToSave } = get();
+    TokenStorageService.immediateSave(stateToSave);
   },
 
   clearStaredTokens: (groupType: TokenGroupType) => {
@@ -229,6 +210,7 @@ export const useTokenAnalysisStore = create<TokenAnalysisState & TokenAnalysisAc
     }));
 
     // Save the updated state
-    TokenStorageService.immediateSave(get());
+    const { actions, ...stateToSave } = get();
+    TokenStorageService.immediateSave(stateToSave);
   },
-}));
+});

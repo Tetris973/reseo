@@ -1,15 +1,15 @@
 'use client';
 
 import { Textarea } from '@mantine/core';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { useInputText, useTokenAnalysisActions } from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 
 interface DescriptionInputProps {
   placeholder?: string;
 }
 
 export function DescriptionInput({ placeholder = 'Enter job description' }: DescriptionInputProps) {
-  const inputText = useTokenAnalysisStore((state) => state.inputText);
-  const setText = useTokenAnalysisStore((state) => state.setText);
+  const inputText = useInputText();
+  const setText = useTokenAnalysisActions().setText;
 
   return (
     <Textarea

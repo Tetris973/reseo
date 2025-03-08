@@ -21,6 +21,7 @@ export interface TokenAnalysisState {
   stopWordsDictionary: Set<string>;
 }
 
+// Actions interface
 export interface TokenAnalysisActions {
   setText: (text: string) => void;
   setAnalysis: (analysis: TokenAnalysis) => void;
@@ -34,3 +35,8 @@ export interface TokenAnalysisActions {
   clearCustomFilters: (groupType: TokenGroupType) => void;
   clearStaredTokens: (groupType: TokenGroupType) => void;
 }
+
+// Combined store type
+export type TokenAnalysisStore = TokenAnalysisState & {
+  actions: TokenAnalysisActions;
+};

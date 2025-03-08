@@ -1,8 +1,7 @@
 import { Grid, Text } from '@mantine/core';
 import { TokenTable, TokenGroupConfig } from './token-table';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { useRawAnalysis } from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 import { TokenGroupType } from '@web/app/token-analyzer/services';
-import { useShallow } from 'zustand/react/shallow';
 
 const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
   {
@@ -23,17 +22,7 @@ const TOKEN_GROUP_CONFIGS: TokenGroupConfig[] = [
 ];
 
 export function TokenResults() {
-  const [rawAnalysis, filters, staredTokens, toggleCustomFilter, toggleStaredToken, clearStaredTokens] =
-    useTokenAnalysisStore(
-      useShallow((state) => [
-        state.rawAnalysis,
-        state.filters,
-        state.staredTokens,
-        state.toggleCustomFilter,
-        state.toggleStaredToken,
-        state.clearStaredTokens,
-      ]),
-    );
+  const rawAnalysis = useRawAnalysis();
 
   if (!rawAnalysis) {
     return (
@@ -55,13 +44,6 @@ export function TokenResults() {
           <TokenTable
             config={config}
             entries={rawAnalysis.tokensByGroup[config.type]}
-            onToggleFilter={(token) => toggleCustomFilter(config.type, token)}
-            customFilters={filters.customFilters[config.type]}
-            stopWordsEnabled={filters.stopWords.enabled[config.type]}
-            stopWordsFilterable={filters.stopWords.filterableSets[config.type]}
-            staredTokens={staredTokens[config.type]}
-            onToggleStar={(token: string) => toggleStaredToken(config.type, token)}
-            clearStaredTokens={() => clearStaredTokens(config.type)}
           />
         </Grid.Col>
       ))}

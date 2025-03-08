@@ -5,7 +5,7 @@ import { TokenBadges } from './token-badges';
 import { TokenFilterData } from './token-filter-lists';
 import { useState } from 'react';
 import { TokenEntity } from '@web/app/token-analyzer/services';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { useTokenAnalysisActions } from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 import { modals } from '@mantine/modals';
 
 interface TokenFilterSectionProps {
@@ -23,7 +23,7 @@ export function TokenFilterSection({
 }: TokenFilterSectionProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const clearCustomFilters = useTokenAnalysisStore((state) => state.clearCustomFilters);
+  const tokenAnalysisActions = useTokenAnalysisActions();
 
   const handleToggleEdit = () => {
     setIsEditing(!isEditing);
@@ -39,7 +39,7 @@ export function TokenFilterSection({
       children: `Are you sure you want to clear all custom filters for ${config.label.toLowerCase()}? This action cannot be undone.`,
       labels: { confirm: 'Clear filters', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
-      onConfirm: () => clearCustomFilters(config.type),
+      onConfirm: () => tokenAnalysisActions.clearCustomFilters(config.type),
     });
   };
 
