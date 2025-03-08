@@ -6,6 +6,13 @@ import { TokenChip } from './token-chip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { modals } from '@mantine/modals';
+import {
+  useFilterableSets,
+  useCustomFilters,
+  useStopWordsEnabled,
+  useStaredTokens,
+  useTokenAnalysisActions,
+} from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 
 export interface TokenGroupConfig {
   type: TokenGroupType;
@@ -18,32 +25,21 @@ export type TokenInteractionMode = 'filter' | 'star';
 interface TokenTableProps {
   config: TokenGroupConfig;
   entries: TokenEntity[];
-  onToggleFilter: (token: string) => void;
-  customFilters: Set<string>;
-  stopWordsEnabled: boolean;
-  stopWordsFilterable: Set<string>;
-  staredTokens: Set<string>;
-  onToggleStar: (token: string) => void;
-  clearStaredTokens: () => void;
 }
 
 const PAGE_SIZE = 20;
 
-export function TokenTable({
-  config,
-  entries,
-  onToggleFilter,
-  customFilters,
-  stopWordsEnabled,
-  stopWordsFilterable,
-  staredTokens,
-  onToggleStar,
-  clearStaredTokens,
-}: TokenTableProps) {
+export function TokenTable({ config, entries }: TokenTableProps) {
   const [showFilteredTokens, setShowFilteredTokens] = useState(false);
   const [showOnlyStarredTokens, setShowOnlyStarredTokens] = useState(false);
   const [page, setPage] = useState(1);
   const [interactionMode, setInteractionMode] = useState<TokenInteractionMode>('filter');
+
+  const staredTokens = useStaredTokens(config.type);
+  const customFilters = useCustomFilters(config.type);
+  const stopWordsEnabled = useStopWordsEnabled(config.type);
+  const stopWordsFilterable = useFilterableSets(config.type);
+  const tokenAnalysisActions = useTokenAnalysisActions();
 
   useEffect(() => {
     setPage(1);
@@ -65,9 +61,9 @@ export function TokenTable({
 
   const handleRowClick = ({ record }: { record: TokenEntity }) => {
     if (interactionMode === 'filter') {
-      onToggleFilter(record.token);
+      tokenAnalysisActions.toggleCustomFilter(config.type, record.token);
     } else if (interactionMode === 'star') {
-      onToggleStar(record.token);
+      tokenAnalysisActions.toggleStaredToken(config.type, record.token);
     }
   };
 
@@ -77,7 +73,7 @@ export function TokenTable({
       children: `Are you sure you want to clear all starred ${config.title.toLowerCase()}? This action cannot be undone.`,
       labels: { confirm: 'Clear stars', cancel: 'Cancel' },
       confirmProps: { color: 'gray' },
-      onConfirm: clearStaredTokens,
+      onConfirm: () => tokenAnalysisActions.clearStaredTokens(config.type),
     });
   };
 

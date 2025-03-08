@@ -3,21 +3,20 @@
 import { Button, Tooltip, Group, FileButton } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExport, faFileImport } from '@fortawesome/free-solid-svg-icons';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { useTokenAnalysisActions } from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 import { useRef } from 'react';
 
 export function ExportImportButton() {
-  const exportData = useTokenAnalysisStore((state) => state.exportData);
-  const importData = useTokenAnalysisStore((state) => state.importData);
+  const tokenAnalysisActions = useTokenAnalysisActions();
   const resetRef = useRef<() => void>(null);
 
   const handleExport = () => {
-    exportData();
+    tokenAnalysisActions.exportData();
   };
 
   const handleImport = async (file: File | null) => {
     if (file) {
-      await importData(file);
+      await tokenAnalysisActions.importData(file);
       // Reset the file input
       resetRef.current?.();
     }

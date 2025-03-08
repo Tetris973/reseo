@@ -1,9 +1,9 @@
 import { Button } from '@mantine/core';
-import { useTokenAnalysisStore } from '@webRoot/src/app/token-analyzer/store/token-analysis.store';
+import { useTokenAnalysisActions } from '@web/app/token-analyzer/store/token-analysis-store.hooks';
 import { modals } from '@mantine/modals';
 
 export function ClearAllButton() {
-  const clearAll = useTokenAnalysisStore((state) => state.clearAll);
+  const tokenAnalysisActions = useTokenAnalysisActions();
 
   function handleClearAll() {
     modals.openConfirmModal({
@@ -11,7 +11,7 @@ export function ClearAllButton() {
       children: 'Are you sure you want to clear all data? This action cannot be undone.',
       labels: { confirm: 'Clear all', cancel: 'Cancel' },
       confirmProps: { color: 'red' },
-      onConfirm: clearAll,
+      onConfirm: tokenAnalysisActions.clearAll,
     });
   }
 

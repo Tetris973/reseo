@@ -7,15 +7,15 @@ import { TokenFilterLists } from './components/filters/token-filters/token-filte
 import { TokenSummary } from './components/summary/token-summary';
 import { TokenResults } from './components/results/token-results';
 import { GlobalButtons } from './components/global-buttons/global-buttons';
-import { useTokenAnalysisStore } from './store/token-analysis.store';
+import { useTokenAnalysisActions } from './store/token-analysis-store.hooks';
 import { useEffect } from 'react';
 
 export function TokenAnalyzer() {
-  const loadData = useTokenAnalysisStore((state) => state.loadData);
+  const tokenAnalysisActions = useTokenAnalysisActions();
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    tokenAnalysisActions.loadData();
+  }, [tokenAnalysisActions]);
 
   return (
     <Paper

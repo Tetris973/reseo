@@ -1,6 +1,6 @@
 import { TokenGroupType, TokenEntity } from './token-analysis.types';
 import { TokenStorageData } from './store-token.service';
-import { TokenAnalysisState } from '@webRoot/src/app/token-analyzer/store/token-analysis.type';
+import { TokenAnalysisState } from '@web/app/token-analyzer/store/token-analysis-store.types';
 import { saveAs } from 'file-saver';
 /**
  * Interface defining the structure of the exported JSON data
