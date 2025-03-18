@@ -1,0 +1,14 @@
+.tabPanel {
+  padding: var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--mantine-color-gray-2);
+}
+
+.headerGroup {
+  padding: var(--mantine-spacing-md);
+  justify-content: space-between;
+  border-bottom: 1px solid var(--mantine-color-gray-2);
+}
+
+.tabGroup {
+  gap: var(--mantine-spacing-xs);
+}

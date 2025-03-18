@@ -1,0 +1,46 @@
+/* Token styling */
+.stopWord {
+  color: var(--mantine-color-dimmed);
+  text-decoration: line-through;
+}
+
+/* Action buttons */
+.actionButton {
+  padding: 6px;
+  height: 28px;
+  width: 28px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.filterIcon {
+  color: var(--mantine-color-red-9);
+}
+
+.starIcon {
+  color: var(--mantine-color-yellow-5);
+}
+
+/* Empty state */
+.emptyState {
+  padding: var(--mantine-spacing-xl) 0;
+  text-align: center;
+  color: var(--mantine-color-dimmed);
+}
+
+.emptyText {
+  margin-top: var(--mantine-spacing-xs);
+}
+
+/* Token variations tooltip */
+.tooltipContent {
+  min-width: 180px;
+  padding: var(--mantine-spacing-xs);
+}
+
+.variationFlex {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--mantine-spacing-md);
+  padding: 2px 0;
+}

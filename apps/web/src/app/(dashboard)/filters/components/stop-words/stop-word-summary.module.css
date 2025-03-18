@@ -1,0 +1,35 @@
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .summaryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--mantine-spacing-sm);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.summaryContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryTitle {
+  font-weight: 500;
+}
+
+.summaryCount {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--mantine-color-dimmed);
+}

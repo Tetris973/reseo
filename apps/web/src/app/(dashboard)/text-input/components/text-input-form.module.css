@@ -1,0 +1,46 @@
+.card {
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.cardHeader {
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  padding-top: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-xs);
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: var(--mantine-font-size-lg);
+}
+
+.cardDescription {
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-dimmed);
+}
+
+.cardBody {
+  padding: var(--mantine-spacing-md);
+}
+
+.textarea {
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.actionGroup {
+  justify-content: flex-end;
+}
+
+.actionButton {
+  background-color: var(--mantine-color-primary-7);
+  color: var(--mantine-color-white);
+}
+
+.actionButton:hover {
+  background-color: var(--mantine-color-primary-8);
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+}
