@@ -1,0 +1,24 @@
+.dialogTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+}
+
+.dialogIcon {
+  color: var(--mantine-color-red-6);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--mantine-spacing-md);
+}
+
+.dialogText {
+  color: var(--mantine-color-dimmed);
+}
+
+.dialogStack {
+  display: flex;
+  flex-direction: column;
+}

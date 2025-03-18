@@ -1,0 +1,59 @@
+.tabsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.contentContainer {
+  display: flex;
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.scrollArea {
+  height: 500px;
+  padding: var(--mantine-spacing-md);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.letterSection {
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
+.letterHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: calc(-1 * var(--mantine-spacing-xs)) calc(-1 * var(--mantine-spacing-xs)) var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-xs);
+  background-color: var(--mantine-color-body);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  backdrop-filter: blur(8px);
+}
+
+.letterTitle {
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 600;
+  color: var(--mantine-color-primary-6);
+}
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-xs);
+  padding-left: var(--mantine-spacing-xs);
+  margin-top: var(--mantine-spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

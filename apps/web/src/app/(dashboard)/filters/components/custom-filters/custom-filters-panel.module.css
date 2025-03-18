@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--mantine-spacing-sm);
+}
+
+.title {
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 500;
+}
+
+.addFilterGroup {
+  display: flex;
+  margin-bottom: var(--mantine-spacing-sm);
+  gap: var(--mantine-spacing-xs);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mantine-spacing-xl);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+  color: var(--mantine-color-dimmed);
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.emptyIcon {
+  margin-bottom: var(--mantine-spacing-xs);
+  opacity: 0.5;
+}
+
+.emptyText {
+  text-align: center;
+  margin-top: var(--mantine-spacing-xs);
+}
+
+.emptySubtext {
+  font-size: var(--mantine-font-size-sm);
+  margin-top: var(--mantine-spacing-xs);
+}
+
+.filterItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--mantine-spacing-xs);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-sm);
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.filterContent {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+}
+
+.filterIcon {
+  color: var(--mantine-color-red-6);
+}
+
+.actionsContainer {
+  display: flex;
+  padding: var(--mantine-spacing-xs) 0;
+  align-items: center;
+}
+
+.scrollArea {
+  height: 200px;
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+  padding: var(--mantine-spacing-sm);
+}
+
+.tabsBadge {
+  margin-left: var(--mantine-spacing-xs);
+  background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+}
+
+.tabsList {
+  margin-bottom: var(--mantine-spacing-md);
+}
+
+.actionButton {
+  padding: var(--mantine-spacing-xs);
+  height: auto;
+}
+
+.tooltipContent {
+  min-width: 150px;
+  max-width: 300px;
+}
+
+.variationGroup {
+  width: 100%;
+  padding: var(--mantine-spacing-xs) 0;
+}

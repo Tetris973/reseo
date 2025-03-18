@@ -1,0 +1,47 @@
+.filterPanel {
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.description {
+  color: var(--mantine-color-dimmed);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.tabsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
+
+.tabContent {
+  padding: var(--mantine-spacing-md);
+  padding-top: var(--mantine-spacing-lg);
+}
+
+.settingsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tooltipContent {
+  font-size: var(--mantine-font-size-sm);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+}

@@ -1,0 +1,60 @@
+.header {
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  background-color: var(--mantine-color-body);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContent {
+  height: 56px;
+  padding-inline: var(--mantine-spacing-md);
+  justify-content: space-between;
+  width: 100%;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+}
+
+.title {
+  font-size: var(--mantine-font-size-xl);
+  font-weight: 600;
+}
+
+.actionSection {
+  gap: var(--mantine-spacing-xs);
+}
+
+.buttonText {
+  @media (max-width: 576px) {
+    display: none;
+  }
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+}
+
+.actionIcon {
+  color: var(--mantine-color-gray-6);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+}
+
+.dangerButton {
+  background-color: var(--mantine-color-red-8);
+  color: var(--mantine-color-white);
+}
+
+.dangerButton:hover {
+  background-color: var(--mantine-color-red-9);
+}

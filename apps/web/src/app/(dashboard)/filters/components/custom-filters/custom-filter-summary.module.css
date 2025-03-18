@@ -1,0 +1,46 @@
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .summaryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--mantine-spacing-sm);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardTitle {
+  font-weight: 500;
+}
+
+.cardSubtitle {
+  font-size: var(--mantine-font-size-xs);
+  color: var(--mantine-color-dimmed);
+}
+
+.activeBadge {
+  font-size: var(--mantine-font-size-xs);
+  text-transform: uppercase;
+}
+
+.inactiveBadge {
+  font-size: var(--mantine-font-size-xs);
+  text-transform: uppercase;
+  color: var(--mantine-color-gray-6);
+}
