@@ -19,7 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     // If you add a component or provider from Mantine here, remember to add it to to the test utils test/utils/unit-test/renderer.tsx
     <MantineProvider
       theme={theme}
-      defaultColorScheme="auto">
+      defaultColorScheme="light">
       <Notifications />
       <ModalsProvider>{mounted ? children : null}</ModalsProvider>
     </MantineProvider>
