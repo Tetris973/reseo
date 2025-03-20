@@ -7,15 +7,17 @@
 
 .contentContainer {
   display: flex;
-  border: 1px solid var(--mantine-color-gray-3);
-  border-radius: var(--mantine-radius-md);
 }
 
 .scrollArea {
   height: 500px;
   padding: var(--mantine-spacing-md);
-  border: 1px solid var(--mantine-color-gray-3);
-  border-radius: var(--mantine-radius-md);
+  border-top: 1px solid var(--mantine-color-gray-3);
+  border-right: 1px solid var(--mantine-color-gray-3);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  border-left: none;
+  border-top-right-radius: var(--mantine-radius-md);
+  border-bottom-right-radius: var(--mantine-radius-md);
 }
 
 .letterSection {

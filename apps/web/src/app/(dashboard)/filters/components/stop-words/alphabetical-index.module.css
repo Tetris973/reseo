@@ -1,7 +1,13 @@
 .container {
   width: 3rem;
-  border-right: 1px solid var(--mantine-color-gray-3);
   background-color: var(--mantine-color-gray-0);
+  border-left: 1px solid var(--mantine-color-gray-3);
+  border-top: 1px solid var(--mantine-color-gray-3);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  border-right: none;
+  border-top-left-radius: var(--mantine-radius-md);
+  border-bottom-left-radius: var(--mantine-radius-md);
+  height: 500px;
 }
 
 .scrollArea {
@@ -28,10 +34,10 @@
 }
 
 .letterButton:hover {
-  background-color: var(--mantine-color-primary-4);
+  background-color: var(--mantine-primary-color-light-hover);
 }
 
 .letterButtonActive {
-  background-color: var(--mantine-color-primary-6);
+  background-color: var(--mantine-primary-color-filled);
   color: var(--mantine-color-white);
 }

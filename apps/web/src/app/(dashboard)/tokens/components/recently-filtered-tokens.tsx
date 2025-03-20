@@ -63,24 +63,20 @@ export function RecentlyFilteredTokens({ group, onNavigateToFilters }: RecentlyF
                 key={token}
                 variant="light"
                 size="md"
-                className={classes.tokenBadge}>
+                rightSection={
+                  <FontAwesomeIcon
+                    icon="times"
+                    size="xs"
+                  />
+                }
+                onClick={() => handleUnfilter(token)}
+                component="div">
                 <Group className={classes.tokenGroup}>
                   <Text
                     size="xs"
                     truncate>
                     {token}
                   </Text>
-                  <Button
-                    variant="subtle"
-                    size="compact-xs"
-                    className={classes.removeButton}
-                    onClick={() => handleUnfilter(token)}
-                    aria-label={`Remove ${token}`}>
-                    <FontAwesomeIcon
-                      icon="times"
-                      size="xs"
-                    />
-                  </Button>
                 </Group>
               </Badge>
             ))}

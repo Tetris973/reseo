@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Box, Text, Group, Stack, Badge, Button, Tabs, Tooltip, ActionIcon, Paper } from '@mantine/core';
+import { Box, Text, Group, Stack, Badge, Button, Tabs, Tooltip, Paper } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DataTable } from 'mantine-datatable';
 import { CustomFilterSummary } from './custom-filter-summary';
@@ -53,28 +53,6 @@ function useCustomFiltersNavigation() {
   };
 
   return { activeGroup, handleTabChange };
-}
-
-// Panel header component
-function PanelHeader() {
-  return (
-    <Group className={classes.header}>
-      <Text className={classes.title}>Custom Filters</Text>
-      <Tooltip
-        label="Custom filters allow you to exclude specific tokens from your analysis."
-        position="bottom"
-        withArrow>
-        <ActionIcon
-          variant="subtle"
-          size="sm">
-          <FontAwesomeIcon
-            icon="info-circle"
-            size="sm"
-          />
-        </ActionIcon>
-      </Tooltip>
-    </Group>
-  );
 }
 
 // Empty state component
@@ -356,7 +334,9 @@ export function CustomFiltersPanel() {
 
   return (
     <Box className={classes.container}>
-      <PanelHeader />
+      <Group className={classes.header}>
+        <Text className={classes.title}>Custom Filters</Text>
+      </Group>
 
       <CustomFilterSummary
         singleCount={filterCounts.single}

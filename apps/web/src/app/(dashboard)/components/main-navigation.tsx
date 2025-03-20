@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Group, UnstyledButton } from '@mantine/core';
+import { Group, Button } from '@mantine/core';
 import classes from './main-navigation.module.css';
 
 export function MainNavigation() {
@@ -20,13 +20,16 @@ export function MainNavigation() {
       component="nav"
       className={classes.nav}>
       {tabs.map((tab) => (
-        <UnstyledButton
+        <Button
           key={tab.id}
           component={Link}
           href={`/${tab.id}`}
-          className={`${classes.navLink} ${currentPath === tab.id ? classes.active : classes.inactive}`}>
+          variant={currentPath === tab.id ? 'filled' : 'subtle'}
+          size="sm"
+          fw={600}
+          className={classes.navLink}>
           {tab.label}
-        </UnstyledButton>
+        </Button>
       ))}
     </Group>
   );

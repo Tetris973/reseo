@@ -5,24 +5,5 @@
 }
 
 .navLink {
-  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
-  border-radius: var(--mantine-radius-md);
-  font-size: var(--mantine-font-size-sm);
-  font-weight: 600;
   transition: all 0.2s ease;
-}
-
-.active {
-  background-color: var(--mantine-color-primary-7);
-  color: var(--mantine-color-primary-1);
-}
-.active:hover {
-  background-color: var(--mantine-color-primary-9);
-}
-
-.inactive {
-  color: var(--mantine-color-muted-7);
-}
-.inactive:hover {
-  background-color: var(--mantine-color-muted-1);
 }

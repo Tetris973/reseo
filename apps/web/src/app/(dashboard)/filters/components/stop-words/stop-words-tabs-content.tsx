@@ -86,7 +86,7 @@ export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTa
                         <Badge
                           key={token}
                           variant="dot"
-                          color="var(--mantine-color-primary-6)">
+                          color="var(--mantine-color-gray-6)">
                           {token}
                         </Badge>
                       ))}
@@ -100,37 +100,57 @@ export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTa
       </Tabs.Panel>
 
       <Tabs.Panel value="double">
-        <ScrollArea className={classes.scrollArea}>
-          <SimpleGrid
-            cols={{ base: 1, sm: 2, lg: 3 }}
-            spacing="xs">
-            {Array.from(filters.stopWords.filterableSets.double || new Set()).map((token) => (
-              <Badge
-                key={token}
-                variant="dot"
-                color="var(--mantine-color-primary-6)">
-                {token}
-              </Badge>
-            ))}
-          </SimpleGrid>
-        </ScrollArea>
+        <Box className={classes.contentContainer}>
+          <AlphabeticalIndex
+            letters={letters}
+            activeLetter={activeLetter}
+            setActiveLetter={setActiveLetter}
+            onLetterClick={scrollToLetter}
+          />
+          <Box style={{ flex: 1 }}>
+            <ScrollArea className={classes.scrollArea}>
+              <SimpleGrid
+                cols={{ base: 1, sm: 2, lg: 3 }}
+                spacing="xs">
+                {Array.from(filters.stopWords.filterableSets.double || new Set()).map((token) => (
+                  <Badge
+                    key={token}
+                    variant="dot"
+                    color="var(--mantine-color-gray-6)">
+                    {token}
+                  </Badge>
+                ))}
+              </SimpleGrid>
+            </ScrollArea>
+          </Box>
+        </Box>
       </Tabs.Panel>
 
       <Tabs.Panel value="triple">
-        <ScrollArea className={classes.scrollArea}>
-          <SimpleGrid
-            cols={{ base: 1, sm: 2, lg: 3 }}
-            spacing="xs">
-            {Array.from(filters.stopWords.filterableSets.triple || new Set()).map((token) => (
-              <Badge
-                key={token}
-                variant="dot"
-                color="var(--mantine-color-primary-6)">
-                {token}
-              </Badge>
-            ))}
-          </SimpleGrid>
-        </ScrollArea>
+        <Box className={classes.contentContainer}>
+          <AlphabeticalIndex
+            letters={letters}
+            activeLetter={activeLetter}
+            setActiveLetter={setActiveLetter}
+            onLetterClick={scrollToLetter}
+          />
+          <Box style={{ flex: 1 }}>
+            <ScrollArea className={classes.scrollArea}>
+              <SimpleGrid
+                cols={{ base: 1, sm: 2, lg: 3 }}
+                spacing="xs">
+                {Array.from(filters.stopWords.filterableSets.triple || new Set()).map((token) => (
+                  <Badge
+                    key={token}
+                    variant="dot"
+                    color="var(--mantine-color-gray-6)">
+                    {token}
+                  </Badge>
+                ))}
+              </SimpleGrid>
+            </ScrollArea>
+          </Box>
+        </Box>
       </Tabs.Panel>
     </Tabs>
   );

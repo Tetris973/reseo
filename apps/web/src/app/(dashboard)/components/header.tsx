@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Text, Group, Button, Menu, ActionIcon, FileButton } from '@mantine/core';
+import { Box, Group, Button, FileButton, Title } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTokenAnalysisActions } from '@web/app/(dashboard)/store/token-analysis-store.hooks';
 import classes from './header.module.css';
@@ -38,7 +38,7 @@ export function DashboardHeader() {
       className={classes.header}>
       <Group className={classes.headerContent}>
         <Box className={classes.titleSection}>
-          <Text className={classes.title}>Text Tokenizer</Text>
+          <Title order={2}>Reseo</Title>
         </Box>
 
         <Group className={classes.actionSection}>
@@ -80,7 +80,7 @@ export function DashboardHeader() {
           <Button
             variant="filled"
             size="sm"
-            className={classes.dangerButton}
+            color="red.8"
             onClick={handleClearAll}
             leftSection={
               <FontAwesomeIcon
@@ -90,55 +90,6 @@ export function DashboardHeader() {
             }>
             <span className={classes.buttonText}>Clear All</span>
           </Button>
-
-          <Menu
-            position="bottom-end"
-            shadow="md">
-            <Menu.Target>
-              <ActionIcon
-                variant="subtle"
-                size="md"
-                className={classes.actionIcon}>
-                <FontAwesomeIcon
-                  icon={'cog'}
-                  size="sm"
-                />
-              </ActionIcon>
-            </Menu.Target>
-
-            <Menu.Dropdown>
-              <Menu.Item
-                className={classes.menuItem}
-                leftSection={
-                  <FontAwesomeIcon
-                    icon={'cog'}
-                    size="sm"
-                  />
-                }>
-                Settings
-              </Menu.Item>
-              <Menu.Item
-                className={classes.menuItem}
-                leftSection={
-                  <FontAwesomeIcon
-                    icon={'question-circle'}
-                    size="sm"
-                  />
-                }>
-                Help
-              </Menu.Item>
-              <Menu.Item
-                className={classes.menuItem}
-                leftSection={
-                  <FontAwesomeIcon
-                    icon={'info-circle'}
-                    size="sm"
-                  />
-                }>
-                About
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
         </Group>
       </Group>
     </Box>
