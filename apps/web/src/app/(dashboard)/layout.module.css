@@ -44,7 +44,6 @@
 
 .toggleButton {
   margin-right: var(--mantine-spacing-md);
-  color: var(--mantine-color-gray-7);
 }
 
 .dashboardTitle {

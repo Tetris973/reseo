@@ -42,5 +42,6 @@
 .inactiveBadge {
   font-size: var(--mantine-font-size-xs);
   text-transform: uppercase;
-  color: var(--mantine-color-gray-6);
+  color: var(--mantine-color-dimmed);
+  border-color: var(--mantine-color-dimmed);
 }

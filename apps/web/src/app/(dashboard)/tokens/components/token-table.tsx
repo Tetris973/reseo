@@ -99,38 +99,42 @@ export function TokenTable({ group, customFilter, staredTokens, stopWordsFiltera
     );
   };
 
-  const renderActionsCell = (record: TokenEntity) => (
-    <Group gap="xs">
-      <Button
-        variant="subtle"
-        size="compact-sm"
-        onClick={(e) => {
-          e.stopPropagation();
-          tokenAnalysisActions.toggleCustomFilter(group, record.token);
-        }}
-        className={classes.actionButton}
-        aria-label={customFilter.has(record.token) ? 'Remove filter' : 'Add filter'}>
-        <FontAwesomeIcon
-          icon="filter"
-          className={customFilter.has(record.token) ? classes.filterIcon : undefined}
-        />
-      </Button>
-      <Button
-        variant="subtle"
-        size="compact-sm"
-        onClick={(e) => {
-          e.stopPropagation();
-          tokenAnalysisActions.toggleStaredToken(group, record.token);
-        }}
-        className={classes.actionButton}
-        aria-label={staredTokens.has(record.token) ? 'Unstar token' : 'Star token'}>
-        <FontAwesomeIcon
-          icon="star"
-          className={staredTokens.has(record.token) ? classes.starIcon : undefined}
-        />
-      </Button>
-    </Group>
-  );
+  const renderActionsCell = (record: TokenEntity) => {
+    const isStarred = staredTokens.has(record.token);
+    const isFiltered = customFilter.has(record.token);
+    return (
+      <Group gap="xs">
+        <Button
+          variant="subtle"
+          size="compact-sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            tokenAnalysisActions.toggleCustomFilter(group, record.token);
+          }}
+          className={classes.actionButton}
+          aria-label={isFiltered ? 'Remove filter' : 'Add filter'}>
+          <FontAwesomeIcon
+            icon="filter"
+            className={isFiltered ? classes.filterIcon : undefined}
+          />
+        </Button>
+        <Button
+          variant="subtle"
+          size="compact-sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            tokenAnalysisActions.toggleStaredToken(group, record.token);
+          }}
+          className={classes.actionButton}
+          aria-label={isStarred ? 'Unstar token' : 'Star token'}>
+          <FontAwesomeIcon
+            icon="star"
+            className={isStarred ? classes.starIcon : undefined}
+          />
+        </Button>
+      </Group>
+    );
+  };
 
   return (
     <DataTable
@@ -177,7 +181,6 @@ export function TokenTable({ group, customFilter, staredTokens, stopWordsFiltera
       page={page}
       onPageChange={setPage}
       paginationSize="sm"
-      paginationActiveBackgroundColor="blue.8"
       paginationText={({ from, to, totalRecords }) => `Showing ${from} - ${to} of ${totalRecords} tokens`}
     />
   );

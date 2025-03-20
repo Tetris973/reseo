@@ -1,4 +1,4 @@
-import { Card, Text, Button, Textarea, Group } from '@mantine/core';
+import { Card, Text, Button, Textarea, Group, Title } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './text-input-form.module.css';
 import { useTokenAnalysisActions, useInputText } from '@web/app/(dashboard)/store/token-analysis-store.hooks';
@@ -11,29 +11,30 @@ export function TextInputForm() {
       <Card.Section
         withBorder
         inheritPadding
-        className={classes.cardHeader}>
-        <Text className={classes.cardTitle}>Input Text</Text>
-        <Text className={classes.cardDescription}>Enter your text for tokenization and analysis</Text>
+        pb="xs"
+        pt="xs">
+        <Title order={4}>Text Input</Title>
+        <Text
+          c="dimmed"
+          size="sm">
+          Enter your text for tokenization and analysis
+        </Text>
       </Card.Section>
 
-      <Card.Section className={classes.cardBody}>
+      <Card.Section p="md">
         <Textarea
           placeholder="Enter text here..."
           autosize
           minRows={12}
           maxRows={12}
-          className={classes.textarea}
+          mb="md"
           value={inputText}
           onChange={(e) => tokenAnalysisActions.setText(e.target.value)}
         />
-        <Group className={classes.actionGroup}>
+        <Group justify="flex-end">
           <Button
             variant="filled"
-            className={classes.actionButton}>
-            <FontAwesomeIcon
-              icon="play"
-              className={classes.buttonIcon}
-            />
+            leftSection={<FontAwesomeIcon icon="play" />}>
             Tokenize Text
           </Button>
         </Group>

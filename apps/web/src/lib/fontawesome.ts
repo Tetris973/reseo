@@ -1,4 +1,5 @@
-import { library, config } from '@fortawesome/fontawesome-svg-core';
+import { library, config, IconPack } from '@fortawesome/fontawesome-svg-core';
+import { far } from '@fortawesome/free-regular-svg-icons';
 import {
   faHome,
   faSignOutAlt,
@@ -36,6 +37,7 @@ config.autoAddCss = false; // Prevent FontAwesome from adding its CSS automatica
 
 // this is done to preload the icons so that they appear at first print
 library.add(
+  far as IconPack,
   faHome,
   faSignOutAlt,
   faSignInAlt,

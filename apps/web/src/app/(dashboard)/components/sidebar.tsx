@@ -2,7 +2,19 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Box, Text, Stack, Group, Badge, Divider, ScrollArea, UnstyledButton, Collapse, Paper } from '@mantine/core';
+import {
+  Box,
+  Title,
+  Text,
+  Stack,
+  Group,
+  Badge,
+  Divider,
+  ScrollArea,
+  UnstyledButton,
+  Collapse,
+  Paper,
+} from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   useStaredTokens,
@@ -37,7 +49,7 @@ export function DashboardSidebar() {
   return (
     <Box className={classes.sidebar}>
       <Box className={classes.summarySection}>
-        <Text className={classes.summaryTitle}>Summary</Text>
+        <Title order={4}>Summary</Title>
         <Box className={classes.statsGrid}>
           <Paper
             withBorder
