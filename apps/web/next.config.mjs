@@ -62,6 +62,18 @@ const nextConfig = {
     unoptimized: true,
   },
 
+  /**
+   * Base path and asset prefix configuration
+   *
+   * Problem: MIME type errors when loading assets on non-unique GitLab Pages domain
+   * Cause: Browser requests assets from root path (/_next/*) but they exist in /reseo/_next/*
+   * Solution: Tell Next.js to generate correct asset paths including the subpath
+   *
+   * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
+   */
+  basePath: '/reseo',
+  assetPrefix: '/reseo',
+
   webpack: (config) => {
     // Ignored files in tsconfig.build was not working, This rule works to prevent compilation of development files (test, stories, and e2e files)
     config.module.rules.push({
