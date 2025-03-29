@@ -9,6 +9,8 @@ interface TokenGroupHeaderProps {
   setShowFiltered: (value: boolean) => void;
   showStarredOnly: boolean;
   setShowStarredOnly: (value: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
 }
 
 export function TokenGroupHeader({
@@ -18,6 +20,8 @@ export function TokenGroupHeader({
   setShowFiltered,
   showStarredOnly,
   setShowStarredOnly,
+  searchQuery,
+  setSearchQuery,
 }: TokenGroupHeaderProps) {
   return (
     <Box className={classes.header}>
@@ -111,6 +115,8 @@ export function TokenGroupHeader({
         }
         radius="md"
         className={classes.searchInput}
+        defaultValue={searchQuery}
+        onChange={(event) => setSearchQuery(event.currentTarget.value)}
       />
     </Box>
   );

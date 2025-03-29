@@ -12,6 +12,7 @@ interface TokenGroupTabsProps {
   showFiltered: boolean;
   showStarredOnly: boolean;
   navigateToFilters: (group: TokenGroupType) => void;
+  searchQuery: string;
 }
 
 export function TokenGroupTabs({
@@ -20,6 +21,7 @@ export function TokenGroupTabs({
   showFiltered,
   showStarredOnly,
   navigateToFilters,
+  searchQuery,
 }: TokenGroupTabsProps) {
   const router = useRouter();
   const rawAnalysis = useRawAnalysis();
@@ -97,6 +99,7 @@ export function TokenGroupTabs({
           openRemoveDialog={openRemoveDialog}
           navigateToFilters={navigateToFilters}
           tokenEntities={rawAnalysis.tokensByGroup[type]}
+          searchQuery={searchQuery}
         />
       ))}
     </Tabs>
