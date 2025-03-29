@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Box, Text, Group, Stack, Badge, Button, Tabs, Tooltip, Paper } from '@mantine/core';
+import { Box, Text, Group, Stack, Badge, Button, Tabs, Tooltip, Paper, TextInput } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DataTable } from 'mantine-datatable';
 import { CustomFilterSummary } from './custom-filter-summary';
@@ -23,20 +23,17 @@ interface TabConfig {
   label: string;
 }
 
-// Tab configuration
 const TAB_CONFIGS: TabConfig[] = [
   { type: 'single', label: 'Single Words' },
   { type: 'double', label: 'Double Words' },
   { type: 'triple', label: 'Triple Words' },
 ];
 
-// Custom hook for navigation logic
 function useCustomFiltersNavigation() {
   const router = useRouter();
   const activeGroup = useActiveGroup();
   const { setActiveGroup } = useNavigationActions();
 
-  // Set default tab on mount if none is selected
   useEffect(() => {
     if (!activeGroup) {
       const defaultGroup: TokenGroupType = 'single';
@@ -55,26 +52,24 @@ function useCustomFiltersNavigation() {
   return { activeGroup, handleTabChange };
 }
 
-// Empty state component
-function EmptyState() {
+function EmptyState({ title, description }: { title: string; description: string }) {
   return (
     <Paper
       p="md"
       withBorder
       ta="center"
       className={classes.emptyState}>
-      <Text fw={500}>No custom filters have been added yet.</Text>
+      <Text fw={500}>{title}</Text>
       <Text
         size="sm"
         c="dimmed"
         className={classes.emptyText}>
-        Add filters from the Tokens panel to exclude specific tokens from your analysis.
+        {description}
       </Text>
     </Paper>
   );
 }
 
-// Token cell component with variations tooltip
 function TokenCell({ record }: { record: TokenEntity }) {
   const hasVariations = Object.keys(record.variations).length > 0;
 
@@ -116,7 +111,6 @@ function TokenCell({ record }: { record: TokenEntity }) {
   );
 }
 
-// Action buttons component
 function ActionButtons({
   type,
   isDisabled,
@@ -148,7 +142,6 @@ function ActionButtons({
   );
 }
 
-// Tab navigation component
 function TabNavigation({
   activeGroup,
   onTabChange,
@@ -185,7 +178,6 @@ function TabNavigation({
   );
 }
 
-// Token table component
 function TokenTable({
   type,
   tokens,
@@ -199,10 +191,6 @@ function TokenTable({
   onPageChange: (page: number) => void;
   onRemoveToken: (type: TokenGroupType, token: string) => void;
 }) {
-  if (tokens.length === 0) {
-    return <EmptyState />;
-  }
-
   const paginatedTokens = tokens.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
@@ -269,38 +257,59 @@ function TokenTable({
   );
 }
 
-// Tab content component
 function TabContent({
   type,
   page,
   onPageChange,
   onRemoveToken,
   onClearFilters,
+  searchQuery,
 }: {
   type: TokenGroupType;
   page: number;
   onPageChange: (page: number) => void;
   onRemoveToken: (type: TokenGroupType, token: string) => void;
   onClearFilters: (type: TokenGroupType, label: string) => void;
+  searchQuery: string;
 }) {
   const filters = useFilters();
   const rawAnalysis = useRawAnalysis();
 
-  const filteredTokens = (rawAnalysis?.tokensByGroup[type] || []).filter((token) =>
+  // 1. Get all tokens matching the custom filters for this type
+  const allMatchingTokens = (rawAnalysis?.tokensByGroup[type] || []).filter((token) =>
     filters.customFilters[type].has(token.token),
   );
 
-  const isDisabled = filters.customFilters[type].size === 0;
+  // 2. Apply the search query to the matching tokens
+  const filteredTokens = allMatchingTokens.filter((token) =>
+    token.token.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const isDisabled = allMatchingTokens.length === 0;
+  const hasActiveFilters = allMatchingTokens.length > 0;
+  const noResultsFromSearch = hasActiveFilters && filteredTokens.length === 0;
 
   return (
     <Stack gap="md">
-      <TokenTable
-        type={type}
-        tokens={filteredTokens}
-        page={page}
-        onPageChange={onPageChange}
-        onRemoveToken={onRemoveToken}
-      />
+      {/* 3. Conditionally render Table or EmptyState */}
+      {filteredTokens.length > 0 ? (
+        <TokenTable
+          type={type}
+          tokens={filteredTokens}
+          page={page}
+          onPageChange={onPageChange}
+          onRemoveToken={onRemoveToken}
+        />
+      ) : (
+        <EmptyState
+          title={noResultsFromSearch ? 'No Matching Filters' : 'No Custom Filters Added'}
+          description={
+            noResultsFromSearch
+              ? 'No filtered tokens match your current search query.'
+              : 'Add filters from the Tokens panel to exclude specific tokens from your analysis.'
+          }
+        />
+      )}
       <ActionButtons
         type={type}
         isDisabled={isDisabled}
@@ -315,6 +324,17 @@ export function CustomFiltersPanel() {
   const tokenAnalysisActions = useTokenAnalysisActions();
   const { activeGroup, handleTabChange } = useCustomFiltersNavigation();
   const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    setPage(1);
+    setSearchQuery('');
+  }, [activeGroup]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.currentTarget.value);
+    setPage(1);
+  };
 
   const handleClearCustomFilters = (type: TokenGroupType, label: string) => {
     modals.openConfirmModal({
@@ -344,6 +364,19 @@ export function CustomFiltersPanel() {
         tripleCount={filterCounts.triple}
       />
 
+      <TextInput
+        placeholder="Search filtered tokens..."
+        leftSection={
+          <FontAwesomeIcon
+            icon="search"
+            size="sm"
+          />
+        }
+        value={searchQuery}
+        onChange={handleSearchChange}
+        mb="md"
+      />
+
       <TabNavigation
         activeGroup={activeGroup}
         onTabChange={handleTabChange}
@@ -358,6 +391,7 @@ export function CustomFiltersPanel() {
               onPageChange={setPage}
               onRemoveToken={tokenAnalysisActions.toggleCustomFilter}
               onClearFilters={handleClearCustomFilters}
+              searchQuery={searchQuery}
             />
           </Tabs.Panel>
         ))}

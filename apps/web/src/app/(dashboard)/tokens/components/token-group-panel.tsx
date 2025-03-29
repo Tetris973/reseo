@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Paper, Stack } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
 import { TokenGroupTabs } from './token-group-tabs';
 import { TokenGroupHeader } from './token-group-header';
 import { RemoveStarredDialog } from './remove-starred-dialog';
@@ -17,10 +18,10 @@ export function TokenGroupPanel() {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [currentGroup, setCurrentGroup] = useState<TokenGroupType>('single');
 
-  // Add filter states here
   const [showStopWords, setShowStopWords] = useState(false);
   const [showFiltered, setShowFiltered] = useState(false);
   const [showStarredOnly, setShowStarredOnly] = useState(false);
+  const [searchQuery, setSearchQuery] = useDebouncedState('', 300);
 
   const openRemoveDialog = (group: TokenGroupType) => {
     setCurrentGroup(group);
@@ -45,6 +46,8 @@ export function TokenGroupPanel() {
           setShowFiltered={setShowFiltered}
           showStarredOnly={showStarredOnly}
           setShowStarredOnly={setShowStarredOnly}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
         />
         <TokenGroupTabs
           openRemoveDialog={openRemoveDialog}
@@ -52,6 +55,7 @@ export function TokenGroupPanel() {
           showFiltered={showFiltered}
           showStarredOnly={showStarredOnly}
           navigateToFilters={navigateToFilters}
+          searchQuery={searchQuery}
         />
       </Paper>
 

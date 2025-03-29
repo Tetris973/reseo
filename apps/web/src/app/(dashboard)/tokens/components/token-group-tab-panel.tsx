@@ -20,6 +20,7 @@ interface TokenGroupTabPanelProps {
   openRemoveDialog: (group: TokenGroupType) => void;
   navigateToFilters: (group: TokenGroupType) => void;
   tokenEntities: TokenEntity[];
+  searchQuery: string;
 }
 
 export function TokenGroupTabPanel({
@@ -31,6 +32,7 @@ export function TokenGroupTabPanel({
   showStopWords,
   showStarredOnly,
   tokenEntities: entities,
+  searchQuery,
 }: TokenGroupTabPanelProps) {
   const staredTokens = useStaredTokens(type);
   const customFilters = useCustomFilters(type);
@@ -39,6 +41,8 @@ export function TokenGroupTabPanel({
 
   const filteredTokenEntities = entities.filter(
     (entry) =>
+      // Filter by search query (case-insensitive)
+      entry.token.toLowerCase().includes(searchQuery.toLowerCase()) &&
       // Always filter out stop words
       // stopsWordsFilterable set is always in lowercase
       !(!showStopWords && stopWordsEnabled && stopWordsFilterable.has(entry.token.toLowerCase())) &&
