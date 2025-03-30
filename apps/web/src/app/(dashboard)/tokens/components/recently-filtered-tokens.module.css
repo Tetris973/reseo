@@ -22,11 +22,6 @@
   flex-wrap: wrap;
 }
 
-.tokenGroup {
-  gap: var(--mantine-spacing-xs);
-  flex-wrap: nowrap;
-}
-
 .cardSection {
   padding: var(--mantine-spacing-xs);
 }

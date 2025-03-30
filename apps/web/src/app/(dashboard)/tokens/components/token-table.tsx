@@ -12,11 +12,19 @@ interface TokenTableProps {
   customFilter: Set<string>;
   staredTokens: Set<string>;
   stopWordsFilterable: Set<string>;
+  stopWordsEnabled: boolean;
 }
 
 const PAGE_SIZE = 20;
 
-export function TokenTable({ group, customFilter, staredTokens, stopWordsFilterable, tokenEntities }: TokenTableProps) {
+export function TokenTable({
+  group,
+  customFilter,
+  staredTokens,
+  stopWordsFilterable,
+  stopWordsEnabled,
+  tokenEntities,
+}: TokenTableProps) {
   const [page, setPage] = useState(1);
   const tokenAnalysisActions = useTokenAnalysisActions();
 
@@ -43,12 +51,12 @@ export function TokenTable({ group, customFilter, staredTokens, stopWordsFiltera
   const renderTokenCell = (record: TokenEntity) => {
     const hasVariations = Object.keys(record.variations).length > 0;
     const isStopWord = stopWordsFilterable.has(record.token.toLowerCase());
-    const isFiltered = customFilter.has(record.token);
+    const isFiltered = customFilter.has(record.token) || (isStopWord && stopWordsEnabled);
 
     const tokenText = (
       <Text
         span
-        className={isStopWord || isFiltered ? classes.stopWord : undefined}>
+        className={isFiltered ? classes.stopWord : undefined}>
         {record.token}
       </Text>
     );

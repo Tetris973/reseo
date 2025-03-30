@@ -251,7 +251,6 @@ function TokenTable({
       page={page}
       onPageChange={onPageChange}
       paginationSize="sm"
-      paginationActiveBackgroundColor="blue.8"
       paginationText={({ from, to, totalRecords }) => `Showing ${from} - ${to} of ${totalRecords} filtered tokens`}
     />
   );
