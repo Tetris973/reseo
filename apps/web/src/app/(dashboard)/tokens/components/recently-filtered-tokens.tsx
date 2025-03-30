@@ -1,4 +1,4 @@
-import { Card, Text, Group, Badge, Button } from '@mantine/core';
+import { Card, Text, Group, Badge, Button, Chip } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TokenGroupType } from '@web/app/(dashboard)/services';
 import classes from './recently-filtered-tokens.module.css';
@@ -57,28 +57,31 @@ export function RecentlyFilteredTokens({ group, onNavigateToFilters }: RecentlyF
         <Group className={classes.tokensGroup}>
           {Array.from(customFilters)
             .reverse()
-            .slice(0, 16)
+            .slice(0, 20)
             .map((token) => (
-              <Badge
+              <Chip
                 key={token}
-                variant="light"
-                size="md"
-                rightSection={
+                value={token}
+                icon={
                   <FontAwesomeIcon
                     icon="times"
                     size="xs"
                   />
                 }
-                onClick={() => handleUnfilter(token)}
-                component="div">
-                <Group className={classes.tokenGroup}>
-                  <Text
-                    size="xs"
-                    truncate>
-                    {token}
-                  </Text>
-                </Group>
-              </Badge>
+                variant="light"
+                size="sm"
+                checked={true}
+                onChange={(checked) => {
+                  if (!checked) {
+                    handleUnfilter(token);
+                  }
+                }}>
+                <Text
+                  size="xs"
+                  truncate>
+                  {token}
+                </Text>
+              </Chip>
             ))}
         </Group>
       </Card.Section>

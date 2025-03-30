@@ -100,6 +100,7 @@ export function TokenGroupTabPanel({
         customFilter={customFilters}
         staredTokens={staredTokens}
         stopWordsFilterable={stopWordsFilterable}
+        stopWordsEnabled={stopWordsEnabled}
         tokenEntities={filteredTokenEntities}
       />
     </Tabs.Panel>
