@@ -7,9 +7,15 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'css-modules'],
   // Prettier must be the last, to avoit conflicts with other plugins
-  extends: ['plugin:@typescript-eslint/recommended', 'next/core-web-vitals', 'plugin:storybook/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'next/core-web-vitals',
+    'plugin:storybook/recommended',
+    'plugin:css-modules/recommended',
+    'plugin:prettier/recommended',
+  ],
   root: true,
   env: {
     node: true,
@@ -24,4 +30,3 @@ module.exports = {
     'prettier/prettier': 'error',
   },
 };
-

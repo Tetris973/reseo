@@ -99,8 +99,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Single Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {singleStaredTokens.size || 0}
                   </Badge>
                 </Group>
@@ -115,8 +114,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Double Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {doubleStaredTokens.size || 0}
                   </Badge>
                 </Group>
@@ -131,8 +129,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Triple Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {tripleStaredTokens.size || 0}
                   </Badge>
                 </Group>
@@ -171,8 +168,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Single Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {singleCustomFilters.size || 0}
                   </Badge>
                 </Group>
@@ -187,8 +183,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Double Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {doubleCustomFilters.size || 0}
                   </Badge>
                 </Group>
@@ -203,8 +198,7 @@ export function DashboardSidebar() {
                   <Text size="sm">Triple Words</Text>
                   <Badge
                     variant="outline"
-                    size="sm"
-                    className={classes.badgeCount}>
+                    size="sm">
                     {tripleCustomFilters.size || 0}
                   </Badge>
                 </Group>

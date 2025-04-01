@@ -10,20 +10,6 @@
   border-radius: 0;
 }
 
-.tabHeader {
-  border-bottom: 1px solid var(--mantine-color-gray-3);
-}
-
 .tabGroup {
   gap: var(--mantine-spacing-xs);
-}
-
-.tabPanel {
-  padding: var(--mantine-spacing-md);
-}
-
-.headerGroup {
-  gap: var(--mantine-spacing-xs);
-  justify-content: space-between;
-  padding: var(--mantine-spacing-md);
 }

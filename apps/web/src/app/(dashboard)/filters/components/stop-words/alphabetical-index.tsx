@@ -8,7 +8,12 @@ interface AlphabeticalIndexProps {
   onLetterClick?: (letter: string) => void;
 }
 
-export function AlphabeticalIndex({ letters, activeLetter, setActiveLetter, onLetterClick }: AlphabeticalIndexProps) {
+export const AlphabeticalIndex = ({
+  letters,
+  activeLetter,
+  setActiveLetter,
+  onLetterClick,
+}: AlphabeticalIndexProps) => {
   return (
     <Box className={classes.container}>
       <ScrollArea
@@ -32,4 +37,4 @@ export function AlphabeticalIndex({ letters, activeLetter, setActiveLetter, onLe
       </ScrollArea>
     </Box>
   );
-}
+};

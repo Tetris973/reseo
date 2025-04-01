@@ -70,14 +70,6 @@
   height: 100%;
 }
 
-.spinner {
-  height: var(--mantine-font-size-xl);
-  width: var(--mantine-font-size-xl);
-  border-radius: var(--mantine-radius-xl);
-  border-bottom: rem(2px) solid var(--mantine-primary-color-filled);
-  animation: spin 1s linear infinite;
-}
-
 @keyframes spin {
   from {
     transform: rotate(0deg);

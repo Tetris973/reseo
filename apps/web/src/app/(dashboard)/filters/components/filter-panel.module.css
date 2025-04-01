@@ -33,14 +33,3 @@
   padding: var(--mantine-spacing-md);
   padding-top: var(--mantine-spacing-lg);
 }
-
-.settingsButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tooltipContent {
-  font-size: var(--mantine-font-size-sm);
-  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
-}
