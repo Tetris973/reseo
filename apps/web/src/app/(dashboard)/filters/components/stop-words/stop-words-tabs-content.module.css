@@ -2,7 +2,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-sm);
+}
+
+.tabsList {
+  margin-bottom: var(--mantine-spacing-sm);
+}
+
+.tabsBadge {
+  margin-left: var(--mantine-spacing-xs);
+  background-color: var(--mantine-color-gray-1);
 }
 
 .contentContainer {

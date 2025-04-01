@@ -123,7 +123,7 @@ function ActionButtons({
   const label = TAB_CONFIGS.find((config) => config.type === type)?.label || '';
 
   return (
-    <Box className={classes.actionsContainer}>
+    <Box>
       <Button
         variant="subtle"
         color="red"
@@ -146,33 +146,51 @@ function TabNavigation({
   activeGroup,
   onTabChange,
   filterCounts,
+  onClearActiveFilterGroup,
   children,
 }: {
   activeGroup: TokenGroupType | null;
   onTabChange: (value: string | null) => void;
   filterCounts: Record<TokenGroupType, number>;
+  onClearActiveFilterGroup: (type: TokenGroupType, label: string) => void;
   children: React.ReactNode;
 }) {
+  const isDisabled = !activeGroup || filterCounts[activeGroup] === 0;
+
   return (
     <Tabs
       value={activeGroup}
       onChange={onTabChange}>
-      <Tabs.List className={classes.tabsList}>
-        {TAB_CONFIGS.map((config) => (
-          <Tabs.Tab
-            key={config.type}
-            value={config.type}>
-            <Group>
-              <Text>{config.label}</Text>
-              <Badge
-                variant="light"
-                className={classes.tabsBadge}>
-                {filterCounts[config.type]}
-              </Badge>
-            </Group>
-          </Tabs.Tab>
-        ))}
-      </Tabs.List>
+      <Group
+        justify="space-between"
+        align="center"
+        mb="xs"
+        wrap="nowrap">
+        <Tabs.List className={classes.tabsList}>
+          {TAB_CONFIGS.map((config) => (
+            <Tabs.Tab
+              key={config.type}
+              value={config.type}>
+              <Group gap="xs">
+                <Text>{config.label}</Text>
+                <Badge
+                  variant="light"
+                  className={classes.tabsBadge}>
+                  {filterCounts[config.type]}
+                </Badge>
+              </Group>
+            </Tabs.Tab>
+          ))}
+        </Tabs.List>
+
+        {activeGroup && (
+          <ActionButtons
+            type={activeGroup}
+            isDisabled={isDisabled}
+            onClear={onClearActiveFilterGroup}
+          />
+        )}
+      </Group>
       {children}
     </Tabs>
   );
@@ -261,14 +279,12 @@ function TabContent({
   page,
   onPageChange,
   onRemoveToken,
-  onClearFilters,
   searchQuery,
 }: {
   type: TokenGroupType;
   page: number;
   onPageChange: (page: number) => void;
   onRemoveToken: (type: TokenGroupType, token: string) => void;
-  onClearFilters: (type: TokenGroupType, label: string) => void;
   searchQuery: string;
 }) {
   const filters = useFilters();
@@ -284,7 +300,6 @@ function TabContent({
     token.token.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const isDisabled = allMatchingTokens.length === 0;
   const hasActiveFilters = allMatchingTokens.length > 0;
   const noResultsFromSearch = hasActiveFilters && filteredTokens.length === 0;
 
@@ -309,11 +324,6 @@ function TabContent({
           }
         />
       )}
-      <ActionButtons
-        type={type}
-        isDisabled={isDisabled}
-        onClear={onClearFilters}
-      />
     </Stack>
   );
 }
@@ -379,7 +389,8 @@ export function CustomFiltersPanel() {
       <TabNavigation
         activeGroup={activeGroup}
         onTabChange={handleTabChange}
-        filterCounts={filterCounts}>
+        filterCounts={filterCounts}
+        onClearActiveFilterGroup={handleClearCustomFilters}>
         {TAB_CONFIGS.map((config) => (
           <Tabs.Panel
             key={config.type}
@@ -389,7 +400,6 @@ export function CustomFiltersPanel() {
               page={page}
               onPageChange={setPage}
               onRemoveToken={tokenAnalysisActions.toggleCustomFilter}
-              onClearFilters={handleClearCustomFilters}
               searchQuery={searchQuery}
             />
           </Tabs.Panel>

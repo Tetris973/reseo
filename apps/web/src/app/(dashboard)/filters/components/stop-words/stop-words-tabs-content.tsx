@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Box, Tabs, ScrollArea, SimpleGrid, Stack, Badge } from '@mantine/core';
+import { Box, Tabs, ScrollArea, SimpleGrid, Stack, Badge, Group, Text } from '@mantine/core';
 import { AlphabeticalIndex } from '@web/app/(dashboard)/filters/components/stop-words/alphabetical-index';
 import { TokenGroupType } from '@web/app/(dashboard)/services/token-analysis.types';
 import { useFilters, useStopWordsDictionary } from '@web/app/(dashboard)/store/token-analysis-store.hooks';
@@ -10,6 +10,12 @@ interface StopWordsTabsContentProps {
   activeTab: TokenGroupType;
   handleTabChange: (value: string | null) => void;
 }
+
+const TAB_CONFIGS = [
+  { type: 'single' as TokenGroupType, label: 'Single Words' },
+  { type: 'double' as TokenGroupType, label: 'Double Words' },
+  { type: 'triple' as TokenGroupType, label: 'Triple Words' },
+];
 
 export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTabsContentProps) {
   const stopWordsDictionary = useStopWordsDictionary();
@@ -45,17 +51,42 @@ export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTa
     }
   };
 
+  const stopWordCounts = useMemo(
+    () => ({
+      single: filters.stopWords.filterableSets.single?.size || 0,
+      double: filters.stopWords.filterableSets.double?.size || 0,
+      triple: filters.stopWords.filterableSets.triple?.size || 0,
+    }),
+    [filters.stopWords.filterableSets],
+  );
+
   return (
     <Tabs
       value={activeTab}
       onChange={handleTabChange}>
-      <Box className={classes.tabsContainer}>
-        <Tabs.List>
-          <Tabs.Tab value="single">Single Words</Tabs.Tab>
-          <Tabs.Tab value="double">Double Words</Tabs.Tab>
-          <Tabs.Tab value="triple">Triple Words</Tabs.Tab>
+      <Group
+        justify="space-between"
+        align="center"
+        mb="xs"
+        wrap="nowrap"
+        className={classes.tabsContainer}>
+        <Tabs.List className={classes.tabsList}>
+          {TAB_CONFIGS.map((config) => (
+            <Tabs.Tab
+              key={config.type}
+              value={config.type}>
+              <Group gap="xs">
+                <Text>{config.label}</Text>
+                <Badge
+                  variant="light"
+                  className={classes.tabsBadge}>
+                  {stopWordCounts[config.type]}
+                </Badge>
+              </Group>
+            </Tabs.Tab>
+          ))}
         </Tabs.List>
-      </Box>
+      </Group>
 
       <Tabs.Panel value="single">
         <Box className={classes.contentContainer}>
