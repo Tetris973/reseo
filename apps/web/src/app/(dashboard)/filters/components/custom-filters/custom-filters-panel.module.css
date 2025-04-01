@@ -33,19 +33,13 @@
   margin-top: var(--mantine-spacing-xs);
 }
 
-.actionsContainer {
-  display: flex;
-  padding: var(--mantine-spacing-xs) 0;
-  align-items: center;
-}
-
 .tabsBadge {
   margin-left: var(--mantine-spacing-xs);
   background-color: var(--mantine-color-gray-1);
 }
 
 .tabsList {
-  margin-bottom: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-sm);
 }
 
 .actionButton {

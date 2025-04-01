@@ -20,6 +20,8 @@ export const APOSTROPHE = "'"; // don't, you're
 export const COMMA = ','; // c++, c#, etc
 export const COLON = ':'; // missions:
 export const EXLAMATION_POINT = '!'; // business!
+export const QUOTATION_MARK = '"'; // "hello"
+export const SEMICOLON = ';'; // business;
 
 /**
  * Structural Characters:
@@ -49,7 +51,7 @@ export const ALLOWED_CHARS = [
 /**
  * Characters that should be removed from a word after filtering
  */
-export const NON_SEMANTIC_CHARS = [PARENTHESES, COLON, COMMA, EXLAMATION_POINT].join('');
+export const NON_SEMANTIC_CHARS = [PARENTHESES, COLON, COMMA, EXLAMATION_POINT, QUOTATION_MARK, SEMICOLON].join('');
 
 export const allowedCharsPattern = new RegExp(`[${ALLOWED_CHARS}]`);
 export const nonSemanticCharsPattern = new RegExp(`[${NON_SEMANTIC_CHARS}]`, 'g');

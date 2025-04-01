@@ -1,7 +1,7 @@
 import { DataTable } from 'mantine-datatable';
 import { Text, Group, Button, Box, Badge, Tooltip, Flex, Paper } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TokenEntity, TokenGroupType } from '@web/app/(dashboard)/services';
 import { useTokenAnalysisActions } from '@web/app/(dashboard)/store/token-analysis-store.hooks';
 import classes from './token-table.module.css';
@@ -27,6 +27,16 @@ export function TokenTable({
 }: TokenTableProps) {
   const [page, setPage] = useState(1);
   const tokenAnalysisActions = useTokenAnalysisActions();
+
+  useEffect(() => {
+    const totalRecords = tokenEntities.length;
+
+    const totalPages = Math.ceil(totalRecords / PAGE_SIZE);
+    if (page > totalPages) {
+      const newPage = totalPages || 1;
+      setPage(newPage);
+    }
+  }, [tokenEntities.length, page, setPage]);
 
   const paginatedEntries = tokenEntities.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
