@@ -1,11 +1,7 @@
 {
   "extends": "../../tsconfig.json", // extend the root tsconfig
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     // "esnext" is recommended for Next.js projects to enable modern ES module syntax, which is compatible with the latest JavaScript features and optimizations, especially for client-side and server-side rendering in Next.js applications.
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -14,6 +10,9 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "typescript-plugin-css-modules"
       }
     ],
     /**
@@ -24,15 +23,9 @@
      */
     "types": ["@testing-library/jest-dom"],
     "paths": {
-      "@webRoot/*": [
-        "./apps/web/*"
-      ],
-      "@web/*": [
-        "./apps/web/src/*"
-      ],
-      "@testWeb/*": [
-        "./apps/web/test/*"
-      ],
+      "@webRoot/*": ["./apps/web/*"],
+      "@web/*": ["./apps/web/src/*"],
+      "@testWeb/*": ["./apps/web/test/*"]
     }
   },
   "include": [
@@ -44,7 +37,5 @@
     // So that ts knows the jest-dom functions from expect
     "test/vitest.setup.mts"
   ],
-  "exclude": [
-    "node_modules",
-  ],
+  "exclude": ["node_modules"]
 }

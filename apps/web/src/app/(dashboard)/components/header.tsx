@@ -51,14 +51,13 @@ export function DashboardHeader() {
                 {...props}
                 variant="default"
                 size="sm"
-                className={classes.actionButton}
                 leftSection={
                   <FontAwesomeIcon
                     icon={'upload'}
                     size="sm"
                   />
                 }>
-                <span className={classes.buttonText}>Import</span>
+                <span>Import</span>
               </Button>
             )}
           </FileButton>
@@ -66,7 +65,6 @@ export function DashboardHeader() {
           <Button
             variant="default"
             size="sm"
-            className={classes.actionButton}
             onClick={tokenAnalysisActions.exportData}
             leftSection={
               <FontAwesomeIcon
@@ -74,7 +72,7 @@ export function DashboardHeader() {
                 size="sm"
               />
             }>
-            <span className={classes.buttonText}>Export</span>
+            <span>Export</span>
           </Button>
 
           <Button
@@ -88,7 +86,7 @@ export function DashboardHeader() {
                 size="sm"
               />
             }>
-            <span className={classes.buttonText}>Clear All</span>
+            <span>Clear All</span>
           </Button>
         </Group>
       </Group>

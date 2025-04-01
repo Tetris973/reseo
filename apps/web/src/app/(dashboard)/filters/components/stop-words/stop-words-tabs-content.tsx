@@ -133,10 +133,10 @@ export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTa
       <Tabs.Panel value="double">
         <Box className={classes.contentContainer}>
           <AlphabeticalIndex
-            letters={letters}
-            activeLetter={activeLetter}
-            setActiveLetter={setActiveLetter}
-            onLetterClick={scrollToLetter}
+            letters={[]}
+            activeLetter={''}
+            setActiveLetter={() => {}}
+            onLetterClick={() => {}}
           />
           <Box style={{ flex: 1 }}>
             <ScrollArea className={classes.scrollArea}>
@@ -160,10 +160,10 @@ export function StopWordsTabsContent({ activeTab, handleTabChange }: StopWordsTa
       <Tabs.Panel value="triple">
         <Box className={classes.contentContainer}>
           <AlphabeticalIndex
-            letters={letters}
-            activeLetter={activeLetter}
-            setActiveLetter={setActiveLetter}
-            onLetterClick={scrollToLetter}
+            letters={[]}
+            activeLetter={''}
+            setActiveLetter={() => {}}
+            onLetterClick={() => {}}
           />
           <Box style={{ flex: 1 }}>
             <ScrollArea className={classes.scrollArea}>
