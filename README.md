@@ -4,13 +4,25 @@
 
 <div align="center">
   <a href="https://gitlab.com/tetris973/reseo">
-    <img src="./docs-website/docs/img/logo.png" alt="Logo" width="246" height="92" />
+    <img src="./apps/web/src/app/apple-touch-icon.png" alt="Logo" width="246" height="246" />
   </a>
 
   <h3 align="center">Reseo (Resume SEO)</h3>
 
   <p align="center">
     An app to help you identify the best keywords for your resume.
+    <br />
+    <br />
+    Watch the Project Presentation:
+    <br />
+    <a href="https://www.youtube.com/watch?v=p6xi1a6jYRI">
+      <img src="https://img.youtube.com/vi/p6xi1a6jYRI/hqdefault.jpg" alt="Watch the Project Presentation" width="480">
+    </a>
+    <br />
+    <br />
+    <a href="https://tetris973.gitlab.io/reseo">
+      💻 Try it right here!
+    </a>
     <br />
     <br />
     <a href="https://tetris973.gitlab.io/reseo/docs/getting-started/">
@@ -50,7 +62,7 @@ See the [open issues](https://gitlab.com/tetris973/reseo/-/issues) for a full li
 
 ## License
 
-Mono Next Nest Template is [MIT licensed](LICENSE).
+Reseo is [MIT licensed](LICENSE)
 
 ## Contact
 
@@ -59,5 +71,6 @@ Mono Next Nest Template is [MIT licensed](LICENSE).
 [This section needs to be completed with acknowledgments to resources, libraries, or individuals that have been helpful in the development of this project.] -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
+
 [license-shield]: https://img.shields.io/badge/license-MIT-green?style=for-the-badge
 [license-url]: https://gitlab.com/tetris973/reseo/-/blob/main/LICENSE.txt
